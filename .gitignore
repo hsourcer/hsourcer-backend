@@ -22,7 +22,7 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
-ClientApp/node_modules/
+ClientApp/
 
 # Visual Studio Code
 .vscode/
