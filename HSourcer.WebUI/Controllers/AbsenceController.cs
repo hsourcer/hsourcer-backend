@@ -1,4 +1,5 @@
-﻿using HSourcer.Application.Absences.Commands.Create;
+﻿using AutoMapper;
+using HSourcer.Application.Absences.Commands.Create;
 using HSourcer.Application.Absences.Commands.Update;
 using HSourcer.Application.Absences.Queries;
 using MediatR;
@@ -14,6 +15,7 @@ namespace HSourcer.WebUI.Controllers
     [ApiVersion("1.0")]
     public class AbsenceController : BaseController
     {
+        public AbsenceController(IMapper mapper) : base(mapper) { }
         [HttpPost]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(StatusCodes.Status201Created)]
