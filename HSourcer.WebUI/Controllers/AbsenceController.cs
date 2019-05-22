@@ -2,11 +2,13 @@
 using HSourcer.Application.Absences.Commands.Create;
 using HSourcer.Application.Absences.Commands.Update;
 using HSourcer.Application.Absences.Queries;
+using HSourcer.WebUI.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HSourcer.WebUI.Controllers
@@ -22,7 +24,6 @@ namespace HSourcer.WebUI.Controllers
         public async Task<ActionResult> Create([FromBody] CreateAbsenceCommand command)
         {
             var absenceId = await Mediator.Send(command);
-
             return CreatedAtAction("Created Absence", absenceId);
         }
         [HttpPut]
@@ -36,15 +37,14 @@ namespace HSourcer.WebUI.Controllers
         }
         [HttpGet]
         [MapToApiVersion("1.0")]
-        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetAbsences([FromQuery] GetAbsencesQuery query)
+        [ProducesResponseType(typeof(IEnumerable<AbsenceViewModel>), StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAbsence([FromQuery] GetAbsenceQuery query)
         {
-            var absences = await Mediator.Send(query);
+            var queryResult = await Mediator.Send(query);
 
-            return Ok(absences);
+            var displayResult = _mapper.Map(queryResult, typeof(IEnumerable<AbsenceModel>), typeof(IEnumerable<AbsenceViewModel>));
+
+            return Ok(displayResult);
         }
-
-
-
     }
 }
