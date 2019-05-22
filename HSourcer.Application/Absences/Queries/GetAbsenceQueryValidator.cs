@@ -5,9 +5,9 @@ using System.Text;
 
 namespace HSourcer.Application.Absences.Queries
 {
-    public class GetAbsencesQueryValidator : AbstractValidator<GetAbsencesQuery>
+    public class GetAbsenceQueryValidator : AbstractValidator<GetAbsenceQuery>
     {
-        public GetAbsencesQueryValidator()
+        public GetAbsenceQueryValidator()
         {
             //get identity?
             //validation on properties not needed

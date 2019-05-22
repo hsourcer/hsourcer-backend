@@ -10,16 +10,16 @@ using System.Collections.Generic;
 
 namespace HSourcer.Application.Absences.Queries
 {
-    public class GetAbsencesQueryHandler : IRequestHandler<GetAbsencesQuery, IEnumerable<AbsencesModel>>
+    public class GetAbsenceQueryHandler : IRequestHandler<GetAbsenceQuery, IEnumerable<AbsenceModel>>
     {
         private readonly IHSourcerDbContext _context;
 
-        public GetAbsencesQueryHandler(IHSourcerDbContext context)
+        public GetAbsenceQueryHandler(IHSourcerDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<AbsencesModel>> Handle(GetAbsencesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<AbsenceModel>> Handle(GetAbsenceQuery request, CancellationToken cancellationToken)
         {
             var query = _context.Absences
                 .Where(a =>
@@ -38,7 +38,7 @@ namespace HSourcer.Application.Absences.Queries
                 entities = new List<Absence>();
             }
 
-            return entities.Select(e => AbsencesModel.Create(e));
+            return entities.Select(e => AbsenceModel.Create(e));
         }
     }
 }

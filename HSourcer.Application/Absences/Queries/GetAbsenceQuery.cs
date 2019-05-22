@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HSourcer.Application.Absences.Queries
 {
-    public class GetAbsencesQuery : IRequest<IEnumerable<AbsencesModel>>
+    public class GetAbsenceQuery : IRequest<IEnumerable<AbsenceModel>>
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

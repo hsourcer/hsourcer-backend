@@ -7,7 +7,7 @@ using HSourcer.Domain.Enums;
 
 namespace HSourcer.Application.Absences.Queries
 {
-    public class AbsencesModel
+    public class AbsenceModel
     {
         public int Id { get; set; }
         public AbsenceEnum Type { get; set; }
@@ -19,11 +19,11 @@ namespace HSourcer.Application.Absences.Queries
         public int TeamId { get; set; }
         public StatusEnum Status { get; set; }
 
-        public static Expression<Func<Absence, AbsencesModel>> Projection
+        public static Expression<Func<Absence, AbsenceModel>> Projection
         {
             get
             {
-                return absence => new AbsencesModel
+                return absence => new AbsenceModel
                 {
                     Id = absence.AbsenceId,
                     Type = (AbsenceEnum)absence.TypeId,
@@ -38,7 +38,7 @@ namespace HSourcer.Application.Absences.Queries
             }
         }
 
-        public static AbsencesModel Create(Absence absence)
+        public static AbsenceModel Create(Absence absence)
         {
             return Projection.Compile().Invoke(absence);
         }
