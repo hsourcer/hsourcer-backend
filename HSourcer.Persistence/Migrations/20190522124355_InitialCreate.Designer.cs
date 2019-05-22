@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HSourcer.Persistence.Migrations
 {
     [DbContext(typeof(HSourcerDbContext))]
-    [Migration("20190510102806_InitialCreate")]
+    [Migration("20190522124355_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,7 @@ namespace HSourcer.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Absences");
+                    b.ToTable("Absence");
                 });
 
             modelBuilder.Entity("HSourcer.Domain.Entities.Organization", b =>
@@ -80,6 +80,7 @@ namespace HSourcer.Persistence.Migrations
                         .HasMaxLength(255);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(255);
 
                     b.HasKey("OrganizationId")
@@ -96,7 +97,7 @@ namespace HSourcer.Persistence.Migrations
                         .HasMaxLength(20)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy");
+                    b.Property<int?>("CreatedBy");
 
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
@@ -106,6 +107,7 @@ namespace HSourcer.Persistence.Migrations
                         .HasMaxLength(255);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(255);
 
                     b.Property<int>("OrganizationId");
@@ -134,36 +136,29 @@ namespace HSourcer.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(true);
 
-                    b.Property<int>("CreatedByUserId");
+                    b.Property<int?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreationDate")
+                    b.Property<DateTime?>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("getutcdate()");
 
-                    b.Property<DateTime>("DeactivationDate");
+                    b.Property<DateTime?>("DeactivationDate");
 
                     b.Property<string>("EmailAddress")
-                        .IsRequired()
                         .HasMaxLength(255);
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(255);
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<int>("OrganizationId");
-
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(255);
 
                     b.Property<string>("PhotoPath");
 
                     b.Property<string>("Position")
-                        .IsRequired()
                         .HasMaxLength(255);
 
                     b.Property<int>("Role");
@@ -175,8 +170,6 @@ namespace HSourcer.Persistence.Migrations
 
                     b.HasIndex("CreatedByUserId");
 
-                    b.HasIndex("OrganizationId");
-
                     b.HasIndex("TeamId");
 
                     b.ToTable("Users");
@@ -185,21 +178,21 @@ namespace HSourcer.Persistence.Migrations
             modelBuilder.Entity("HSourcer.Domain.Entities.Absence", b =>
                 {
                     b.HasOne("HSourcer.Domain.Entities.User", "ContactPerson")
-                        .WithMany("AbsencesContactPerson")
+                        .WithMany("AbsenceContactPerson")
                         .HasForeignKey("ContactPersonId")
-                        .HasConstraintName("FK_Absences_ContactPerson")
+                        .HasConstraintName("FK_Absence_ContactPerson")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HSourcer.Domain.Entities.User", "TeamLeader")
-                        .WithMany("AbsencesTeamLeader")
+                        .WithMany("AbsenceTeamLeader")
                         .HasForeignKey("TeamLeaderId")
-                        .HasConstraintName("FK_Absences_TeamLeaders")
+                        .HasConstraintName("FK_Absence_TeamLeaders")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HSourcer.Domain.Entities.User", "User")
-                        .WithMany("Absences")
+                        .WithMany("Absence")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Absences_Users")
+                        .HasConstraintName("FK_Absence_Users")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -218,12 +211,6 @@ namespace HSourcer.Persistence.Migrations
                         .WithMany("UsersCreatedBy")
                         .HasForeignKey("CreatedByUserId")
                         .HasConstraintName("FK_Users_UsersCreator")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("HSourcer.Domain.Entities.Organization", "Organization")
-                        .WithMany("Users")
-                        .HasForeignKey("OrganizationId")
-                        .HasConstraintName("FK_Users_Organizations")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HSourcer.Domain.Entities.Team", "Team")

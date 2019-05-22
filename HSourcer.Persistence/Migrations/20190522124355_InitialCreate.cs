@@ -14,7 +14,7 @@ namespace HSourcer.Persistence.Migrations
                 {
                     OrganizationID = table.Column<int>(maxLength: 20, nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 255, nullable: true),
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
                     Description = table.Column<string>(maxLength: 255, nullable: true)
                 },
                 constraints: table =>
@@ -30,9 +30,9 @@ namespace HSourcer.Persistence.Migrations
                     TeamID = table.Column<int>(maxLength: 20, nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     OrganizationId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: true),
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
                     Description = table.Column<string>(maxLength: 255, nullable: true),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<int>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
@@ -53,17 +53,16 @@ namespace HSourcer.Persistence.Migrations
                 {
                     UserID = table.Column<int>(maxLength: 20, nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    OrganizationId = table.Column<int>(nullable: false),
                     Active = table.Column<bool>(nullable: false, defaultValue: true),
-                    CreatedByUserId = table.Column<int>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
-                    DeactivationDate = table.Column<DateTime>(nullable: false),
+                    CreatedByUserId = table.Column<int>(nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: true, defaultValueSql: "getutcdate()"),
+                    DeactivationDate = table.Column<DateTime>(nullable: true),
                     TeamId = table.Column<int>(nullable: false),
-                    FirstName = table.Column<string>(maxLength: 255, nullable: false),
-                    LastName = table.Column<string>(maxLength: 255, nullable: false),
-                    Position = table.Column<string>(maxLength: 255, nullable: false),
-                    PhoneNumber = table.Column<string>(maxLength: 255, nullable: false),
-                    EmailAddress = table.Column<string>(maxLength: 255, nullable: false),
+                    FirstName = table.Column<string>(maxLength: 255, nullable: true),
+                    LastName = table.Column<string>(maxLength: 255, nullable: true),
+                    Position = table.Column<string>(maxLength: 255, nullable: true),
+                    PhoneNumber = table.Column<string>(maxLength: 255, nullable: true),
+                    EmailAddress = table.Column<string>(maxLength: 255, nullable: true),
                     PhotoPath = table.Column<string>(nullable: true),
                     Role = table.Column<int>(nullable: false)
                 },
@@ -78,12 +77,6 @@ namespace HSourcer.Persistence.Migrations
                         principalColumn: "UserID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Users_Organizations",
-                        column: x => x.OrganizationId,
-                        principalTable: "Organizations",
-                        principalColumn: "OrganizationID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Users_Teams",
                         column: x => x.TeamId,
                         principalTable: "Teams",
@@ -92,7 +85,7 @@ namespace HSourcer.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Absences",
+                name: "Absence",
                 columns: table => new
                 {
                     AbsenceID = table.Column<int>(maxLength: 20, nullable: false)
@@ -110,22 +103,22 @@ namespace HSourcer.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Absences", x => x.AbsenceID)
+                    table.PrimaryKey("PK_Absence", x => x.AbsenceID)
                         .Annotation("SqlServer:Clustered", true);
                     table.ForeignKey(
-                        name: "FK_Absences_ContactPerson",
+                        name: "FK_Absence_ContactPerson",
                         column: x => x.ContactPersonId,
                         principalTable: "Users",
                         principalColumn: "UserID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Absences_TeamLeaders",
+                        name: "FK_Absence_TeamLeaders",
                         column: x => x.TeamLeaderId,
                         principalTable: "Users",
                         principalColumn: "UserID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Absences_Users",
+                        name: "FK_Absence_Users",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserID",
@@ -133,28 +126,28 @@ namespace HSourcer.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Absences_ContactPersonId",
-                table: "Absences",
+                name: "IX_Absence_ContactPersonId",
+                table: "Absence",
                 column: "ContactPersonId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Absences_EndDate",
-                table: "Absences",
+                name: "IX_Absence_EndDate",
+                table: "Absence",
                 column: "EndDate");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Absences_StartDate",
-                table: "Absences",
+                name: "IX_Absence_StartDate",
+                table: "Absence",
                 column: "StartDate");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Absences_TeamLeaderId",
-                table: "Absences",
+                name: "IX_Absence_TeamLeaderId",
+                table: "Absence",
                 column: "TeamLeaderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Absences_UserId",
-                table: "Absences",
+                name: "IX_Absence_UserId",
+                table: "Absence",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -175,11 +168,6 @@ namespace HSourcer.Persistence.Migrations
                 column: "CreatedByUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_OrganizationId",
-                table: "Users",
-                column: "OrganizationId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_TeamId",
                 table: "Users",
                 column: "TeamId");
@@ -188,7 +176,7 @@ namespace HSourcer.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Absences");
+                name: "Absence");
 
             migrationBuilder.DropTable(
                 name: "Users");
