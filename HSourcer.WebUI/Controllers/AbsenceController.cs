@@ -22,6 +22,10 @@ namespace HSourcer.WebUI.Controllers
         ///<summary>
         ///Creation of the absence.
         ///</summary>
+        ///<remarks>
+        ///Restrictions:
+        ///Contract person cannot be the one that submits the absence.
+        ///</remarks>
         [HttpPost]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
