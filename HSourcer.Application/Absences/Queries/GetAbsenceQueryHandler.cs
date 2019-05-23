@@ -27,7 +27,7 @@ namespace HSourcer.Application.Absences.Queries
                 && a.EndDate <= request.EndDate);
 
             //TODO identity
-            var thisUserTeamId = 0;
+            var thisUserTeamId = 1;
             //join on user within the team
             query = query.Where(w => w.User.TeamId == thisUserTeamId);
 

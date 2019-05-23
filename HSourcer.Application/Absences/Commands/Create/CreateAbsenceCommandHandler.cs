@@ -20,8 +20,11 @@ namespace HSourcer.Application.Absences.Commands.Create
         {
             //TODO
             //Get identity, assign userId
+            var identityUserId = 1;
             var entity = new Absence
             {
+
+                UserId = identityUserId,
                 ContactPersonId = request.ContactPersonId,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
@@ -30,7 +33,6 @@ namespace HSourcer.Application.Absences.Commands.Create
             };
 
             _context.Absences.Add(entity);
-
             await _context.SaveChangesAsync(cancellationToken);
 
             return entity.AbsenceId;
