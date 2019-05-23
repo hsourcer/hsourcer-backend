@@ -14,7 +14,7 @@ namespace HSourcer.Application.Teams.Queries
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<User> TeamLeaders { get; set; }
+        public User TeamLeader { get; set; }
         public IEnumerable<User> Users { get; set; }
         public static Expression<Func<Team, TeamModel>> Projection
         {
@@ -24,8 +24,7 @@ namespace HSourcer.Application.Teams.Queries
                 {
                     Id = team.TeamId,
                     Name = team.Name,
-                    //for now like this, later we will use enum casting
-                    TeamLeaders =team.Users.Where(w=>w.Role == (int)RoleEnum.TEAM_LEADER),
+                    TeamLeader =team.Users.FirstOrDefault(w=>w.Role == (int)RoleEnum.TEAM_LEADER),
                     Users = team.Users
                 };
             }

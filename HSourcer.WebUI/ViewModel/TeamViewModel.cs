@@ -16,7 +16,7 @@ namespace HSourcer.WebUI.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<UserViewModel> TeamLeaders { get; set; }
+        public UserViewModel TeamLeader { get; set; }
         public IEnumerable<UserViewModel> Users { get; set; }
     }
 }
