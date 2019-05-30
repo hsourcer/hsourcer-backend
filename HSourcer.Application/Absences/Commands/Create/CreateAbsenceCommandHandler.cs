@@ -4,22 +4,27 @@ using MediatR;
 using HSourcer.Application.Interfaces;
 using HSourcer.Domain.Entities;
 using System;
+using HSourcer.Domain.Security;
 
 namespace HSourcer.Application.Absences.Commands.Create
 {
     public class CreateAbsenceCommandHandler : IRequestHandler<CreateAbsenceCommand, int>
     {
         private readonly IHSourcerDbContext _context;
+        private readonly UserResolverService userResolver;
 
-        public CreateAbsenceCommandHandler(IHSourcerDbContext context)
+        public CreateAbsenceCommandHandler(IHSourcerDbContext context, UserResolverService userResolver)
         {
             _context = context;
+            this.userResolver = userResolver;
         }
 
         public async Task<int> Handle(CreateAbsenceCommand request, CancellationToken cancellationToken)
         {
             //TODO
             //Get identity, assign userId
+
+            var x = userResolver.GetUserIdentity();
             var identityUserId = 1;
             var entity = new Absence
             {

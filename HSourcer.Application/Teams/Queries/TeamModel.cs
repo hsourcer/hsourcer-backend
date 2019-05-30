@@ -12,7 +12,7 @@ namespace HSourcer.Application.Teams.Queries
 {
     public class TeamModel
     {
-        public int Id { get; set; }
+        public int TeamId { get; set; }
         public string Name { get; set; }
         public User TeamLeader { get; set; }
         public IEnumerable<User> Users { get; set; }
@@ -22,9 +22,9 @@ namespace HSourcer.Application.Teams.Queries
             {
                 return team => new TeamModel
                 {
-                    Id = team.TeamId,
+                    TeamId = team.TeamId,
                     Name = team.Name,
-                    TeamLeader =team.Users.FirstOrDefault(w=>w.Role == (int)RoleEnum.TEAM_LEADER),
+                    TeamLeader = team.Users.FirstOrDefault(w => w.UserRoles.Any(r=>r.RoleId == (int)RoleEnum.TEAM_LEADER)),
                     Users = team.Users
                 };
             }

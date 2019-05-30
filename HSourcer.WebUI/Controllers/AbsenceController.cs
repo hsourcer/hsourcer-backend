@@ -4,6 +4,7 @@ using HSourcer.Application.Absences.Commands.Update;
 using HSourcer.Application.Absences.Queries;
 using HSourcer.WebUI.ViewModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,7 @@ namespace HSourcer.WebUI.Controllers
         ///Restrictions:
         ///Contract person cannot be the one that submits the absence.
         ///</remarks>
+        [AllowAnonymous]
         [HttpPost]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
@@ -39,7 +41,7 @@ namespace HSourcer.WebUI.Controllers
         ///</summary>
         ///<remarks>
         ///Restrictions:
-        ///* can be used only by TEAM_LEADER 
+        ///* can be used only by TEAM_LEADER //should be filtred in authorize
         ///* status must be either accept/reject
         ///* absenceId must refer to absence posted by the user within the same team
         ///</remarks>
@@ -63,12 +65,13 @@ namespace HSourcer.WebUI.Controllers
         ///* produced result is only for the team, not the organization.
         ///</remarks>
         [HttpGet]
+        [Authorize]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(IEnumerable<AbsenceViewModel>), StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAbsence([FromQuery] GetAbsenceQuery query)
         {
             var queryResult = await Mediator.Send(query);
-
+            var x = HttpContext.User;
             var displayResult = _mapper.Map(queryResult, typeof(IEnumerable<AbsenceModel>), typeof(IEnumerable<AbsenceViewModel>));
 
             return Ok(displayResult);

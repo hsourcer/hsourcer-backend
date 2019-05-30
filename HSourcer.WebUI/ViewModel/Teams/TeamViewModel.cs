@@ -14,7 +14,7 @@ namespace HSourcer.WebUI.ViewModels
 {
     public class TeamViewModel : IMapFrom<TeamModel>
     {
-        public int Id { get; set; }
+        public int TeamId { get; set; }
         public string Name { get; set; }
         public UserViewModel TeamLeader { get; set; }
         public IEnumerable<UserViewModel> Users { get; set; }

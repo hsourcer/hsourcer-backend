@@ -22,7 +22,9 @@ namespace HSourcer.Application.Teams.Queries
         public async Task<IEnumerable<TeamModel>> Handle(GetTeamQuery request, CancellationToken cancellationToken)
         {
             //type problem
-            IQueryable<Team> query = _context.Teams.Include(u => u.Users);
+            IQueryable<Team> query = _context.Teams
+                .Include(u => u.Users)
+                    .ThenInclude(r => r.UserRoles);
 
             //TODO identity
             var thisUserOrganization = 1;
@@ -35,8 +37,12 @@ namespace HSourcer.Application.Teams.Queries
             {
                 entities = new List<Team>();
             }
-
-            return entities.Select(e => TeamModel.Create(e));
+            var x = entities.Select(e => TeamModel.Create(e));
+            return x;
         }
     }
 }
+
+
+
+
