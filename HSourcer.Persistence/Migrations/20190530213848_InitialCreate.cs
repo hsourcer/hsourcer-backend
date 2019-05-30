@@ -109,6 +109,7 @@ namespace HSourcer.Persistence.Migrations
                     DeactivationDate = table.Column<DateTime>(nullable: true),
                     TeamId = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 255, nullable: true),
+                    UserRole = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(maxLength: 255, nullable: true),
                     Position = table.Column<string>(maxLength: 255, nullable: true),
                     PhotoPath = table.Column<string>(nullable: true)
@@ -218,8 +219,7 @@ namespace HSourcer.Persistence.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<int>(nullable: true)
+                    RoleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -236,12 +236,6 @@ namespace HSourcer.Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -262,28 +256,6 @@ namespace HSourcer.Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "IdentityUserClaim<string>",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(nullable: true),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    UserId1 = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IdentityUserClaim<string>", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_IdentityUserClaim<string>_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -339,11 +311,6 @@ namespace HSourcer.Persistence.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_UserId1",
-                table: "AspNetUserRoles",
-                column: "UserId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_CreatedByUserId",
                 table: "AspNetUsers",
                 column: "CreatedByUserId");
@@ -364,11 +331,6 @@ namespace HSourcer.Persistence.Migrations
                 name: "IX_AspNetUsers_TeamId",
                 table: "AspNetUsers",
                 column: "TeamId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_IdentityUserClaim<string>_UserId1",
-                table: "IdentityUserClaim<string>",
-                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teams_OrganizationId",
@@ -402,9 +364,6 @@ namespace HSourcer.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "IdentityUserClaim<string>");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
