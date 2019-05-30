@@ -36,11 +36,12 @@ namespace HSourcer.Application.Users.Commands
                 LastName = request.LastName,
                 PhoneNumber = request.PhoneNumber,
                 Position = request.Position,
-                TeamId = request.TeamId
+                TeamId = request.TeamId,
+                UserRole = Enum.GetName(typeof(RoleEnum), request.UserRole)
             };
 
             var userCreationResult = await _userManager.CreateAsync(newUser,"Test12#$");
-            var userRoleResult = await _userManager.AddToRoleAsync(newUser, Enum.GetName(typeof(RoleEnum), request.Role));
+            var userRoleResult = await _userManager.AddToRoleAsync(newUser, Enum.GetName(typeof(RoleEnum), (int)(request.UserRole)));
        
             if (userCreationResult.Succeeded)
             {

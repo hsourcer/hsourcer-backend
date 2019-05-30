@@ -22,6 +22,7 @@ namespace HSourcer.WebUI.ViewModels
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string PhotoPath { get; set; }
+        public string UserRole { get; set; }
     }
 
     public class ExtendedUserViewModel : UserViewModel
@@ -35,7 +36,6 @@ namespace HSourcer.WebUI.ViewModels
         }
 
         public string UserToken { get; set; }
-        public string UserRole { get; set; }
         //TODO, make this into extension?
         //public void CreateMappings(Profile configuration)
         //{

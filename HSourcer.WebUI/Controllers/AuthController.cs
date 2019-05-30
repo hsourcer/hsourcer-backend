@@ -51,8 +51,6 @@ namespace HSourcer.WebUI.Controllers
 
                 displayResult.UserToken = tokenHandler.GenerateToken();
 
-                displayResult.UserRole = (await _manager.GetRolesAsync(user)).First();
-
                 return Ok(displayResult);
             }
             return NotFound();

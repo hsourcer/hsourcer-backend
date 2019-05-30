@@ -24,7 +24,7 @@ namespace HSourcer.Application.Teams.Queries
                 {
                     TeamId = team.TeamId,
                     Name = team.Name,
-                    TeamLeader = team.Users.FirstOrDefault(w => w.UserRoles.Any(r=>r.RoleId == (int)RoleEnum.TEAM_LEADER)),
+                    TeamLeader = team.Users.FirstOrDefault(w => w.UserRole == Enum.GetName(typeof(RoleEnum), RoleEnum.TEAM_LEADER)),
                     Users = team.Users
                 };
             }

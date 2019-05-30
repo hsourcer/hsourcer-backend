@@ -13,6 +13,6 @@ namespace HSourcer.Application.Users.Commands
         public string Position { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public RoleEnum Role { get; set; }
+        public RoleEnum UserRole { get; set; }
     }
 }

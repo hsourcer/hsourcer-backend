@@ -23,9 +23,8 @@ namespace HSourcer.Application.Teams.Queries
         {
             //type problem
             IQueryable<Team> query = _context.Teams
-                .Include(u => u.Users)
-                    .ThenInclude(r => r.UserRoles);
-
+                .Include(u => u.Users);
+            
             //TODO identity
             var thisUserOrganization = 1;
             //join on user within the organization
