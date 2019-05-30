@@ -38,12 +38,12 @@ namespace HSourcer.WebUI.Controllers
         [ProducesResponseType(typeof(ExtendedUserViewModel),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Login(string id, string password)
+        public async Task<ActionResult> Login([FromBody] LoginModel login)
         {
-            var logIn = await _signInManager.PasswordSignInAsync(id,password,false,false);
+            var logIn = await _signInManager.PasswordSignInAsync(login.Email, login.Password, false,false);
             if (logIn.Succeeded)
             {
-                var user = await _manager.FindByEmailAsync(id);
+                var user = await _manager.FindByEmailAsync(login.Email);
                
                 var tokenHandler = new CustomTokenHandler(user, TokenConfigOptions);
 
