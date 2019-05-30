@@ -6,8 +6,8 @@ namespace HSourcer.Domain.Security
 {
     public enum RoleEnum
     {
-        ADMIN = 0,
         TEAM_LEADER = 1,
-        EMPLOYEE = 2
+        EMPLOYEE = 2,
+        ADMIN = 3,
     }
 }
