@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HSourcer.Domain.Entities;
+using HSourcer.Infrastructure.Options;
 using HSourcer.WebUI.Auth;
 using HSourcer.WebUI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
