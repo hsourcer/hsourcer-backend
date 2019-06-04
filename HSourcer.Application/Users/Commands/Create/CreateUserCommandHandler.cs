@@ -18,10 +18,11 @@ namespace HSourcer.Application.Users.Commands
         private readonly UserManager<User> _userManager;
         private readonly INotificationService _notificationService;
 
-        public CreateUserCommandHandler(IHSourcerDbContext context, UserManager<User> _userManager, INotificationService notificationService) 
+        public CreateUserCommandHandler(IHSourcerDbContext context, UserManager<User> userManager, INotificationService notificationService) 
         {
             _context = context;
-            this._userManager = _userManager;
+            _userManager = userManager;
+            _notificationService = notificationService;
         }
 
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -45,16 +46,16 @@ namespace HSourcer.Application.Users.Commands
        
             if (userCreationResult.Succeeded)
             {
-                //var passwordSubmissionToken = await _userManager.GeneratePasswordResetTokenAsync(newUser);
-                ////TODO send password token to the user Email.
-                //var message = new Message
-                //{
-                //    Body = "Password Token Reset" + passwordSubmissionToken,
-                //    Subject = "SubmitPassword",
-                //    To = newUser.Email
-                //};
+                var passwordSubmissionToken = await _userManager.GeneratePasswordResetTokenAsync(newUser);
+                //TODO send password token to the user Email.
+                var message = new Message
+                {
+                    Body = "Password Token Reset  " + passwordSubmissionToken,
+                    Subject = "SubmitPassword",
+                    To = new List<string> { newUser.Email }
+                };
 
-                //await _notificationService.SendAsync(message);
+                await _notificationService.SendAsync(message);
 
                 return newUser.Id;
             }

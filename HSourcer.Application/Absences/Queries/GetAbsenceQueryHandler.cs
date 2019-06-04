@@ -7,16 +7,19 @@ using HSourcer.Domain.Entities;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using HSourcer.Application.UserIdentity;
 
 namespace HSourcer.Application.Absences.Queries
 {
     public class GetAbsenceQueryHandler : IRequestHandler<GetAbsenceQuery, IEnumerable<AbsenceModel>>
     {
         private readonly IHSourcerDbContext _context;
+        private readonly UserResolverService _userResolver;
 
-        public GetAbsenceQueryHandler(IHSourcerDbContext context)
+        public GetAbsenceQueryHandler(IHSourcerDbContext context, UserResolverService userResolver)
         {
             _context = context;
+            _userResolver= userResolver;
         }
 
         public async Task<IEnumerable<AbsenceModel>> Handle(GetAbsenceQuery request, CancellationToken cancellationToken)
@@ -26,10 +29,9 @@ namespace HSourcer.Application.Absences.Queries
                 a.StartDate >= request.StartDate
                 && a.EndDate <= request.EndDate);
 
-            //TODO identity
-            var thisUserTeamId = 1;
-            //join on user within the team
-            query = query.Where(w => w.User.TeamId == thisUserTeamId);
+            var user = await _userResolver.GetUserIdentity();
+
+            query = query.Where(w => w.User.TeamId == user.TeamId);
 
             var entities = await query.ToListAsync();
 
