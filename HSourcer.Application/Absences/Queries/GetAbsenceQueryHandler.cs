@@ -24,21 +24,25 @@ namespace HSourcer.Application.Absences.Queries
 
         public async Task<IEnumerable<AbsenceModel>> Handle(GetAbsenceQuery request, CancellationToken cancellationToken)
         {
-            var query = _context.Absences
-                .Where(a =>
-                a.StartDate >= request.StartDate
-                && a.EndDate <= request.EndDate);
-
+            IQueryable<Absence> query =  _context.Absences;
             var user = await _userResolver.GetUserIdentity();
 
+            #region Access logic
             query = query.Where(w => w.User.TeamId == user.TeamId);
+            #endregion
+
+            #region Business logic
+            query = query
+                .Where(a =>
+                (request.StartDate == null ||  a.StartDate >= request.StartDate)
+                &&
+                (request.EndDate == null || a.EndDate <= request.EndDate)            
+                &&
+                (request.AbsenceType == null || a.TypeId == (int)request.AbsenceType)               
+                );
+            #endregion
 
             var entities = await query.ToListAsync();
-
-            if (entities == null)
-            {
-                entities = new List<Absence>();
-            }
 
             return entities.Select(e => AbsenceModel.Create(e));
         }

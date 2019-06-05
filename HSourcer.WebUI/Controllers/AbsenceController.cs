@@ -71,7 +71,6 @@ namespace HSourcer.WebUI.Controllers
         public async Task<ActionResult> GetAbsence([FromQuery] GetAbsenceQuery query)
         {
             var queryResult = await Mediator.Send(query);
-            var x = HttpContext.User;
             var displayResult = _mapper.Map(queryResult, typeof(IEnumerable<AbsenceModel>), typeof(IEnumerable<AbsenceViewModel>));
 
             return Ok(displayResult);
