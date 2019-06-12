@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using HSourcer.Application.Teams.Queries;
 using HSourcer.WebUI.ViewModels;
-using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +11,8 @@ namespace HSourcer.WebUI.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize]
+
     public class TeamController : BaseController
     {
         public TeamController(IMapper mapper) : base(mapper) { }

@@ -8,17 +8,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HSourcer.WebUI.Controllers
 {
     [ApiController]
+    [ApiVersion("1.0")]
+    [Authorize]
+
     public class AuthController : BaseController
     {
         public AuthController(IOptions<TokenConfig> tokenConfig, IMapper mapper, SignInManager<User> _signInManager, UserManager<User> manager) : base(mapper) {
@@ -33,8 +30,7 @@ namespace HSourcer.WebUI.Controllers
         public IOptions<TokenConfig> TokenConfigOptions { get; }
 
         [HttpPost]
-        [Route("/login/")]
-        [MapToApiVersion("1.0")]
+        [Route("login")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(ExtendedUserViewModel),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -58,8 +54,7 @@ namespace HSourcer.WebUI.Controllers
         }
         //Log out
         [HttpPost]
-        [Route("/logout/")]
-        [MapToApiVersion("1.0")]
+        [Route("logout")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> LoginOut()
@@ -67,8 +62,7 @@ namespace HSourcer.WebUI.Controllers
             return Ok();
         }
         [HttpPost]
-        [Route("/submitPassword/")]
-        [MapToApiVersion("1.0")]
+        [Route("submitPassword")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> SubmitPassword()

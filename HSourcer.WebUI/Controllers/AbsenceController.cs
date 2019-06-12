@@ -3,19 +3,18 @@ using HSourcer.Application.Absences.Commands.Create;
 using HSourcer.Application.Absences.Commands.Update;
 using HSourcer.Application.Absences.Queries;
 using HSourcer.WebUI.ViewModels;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace HSourcer.WebUI.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize]
+
     public class AbsenceController : BaseController
     {
         public AbsenceController(IMapper mapper) : base(mapper) { }
