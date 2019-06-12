@@ -6,12 +6,16 @@ using HSourcer.Application.Absences.Queries;
 using HSourcer.Application.Interfaces.Mapping;
 using HSourcer.Domain.Entities;
 using HSourcer.Domain.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace HSourcer.WebUI.ViewModels
 {
     public class AbsenceViewModel : IMapFrom<AbsenceModel>
     {
         public int Id { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
         public AbsenceEnum Type { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -19,6 +23,7 @@ namespace HSourcer.WebUI.ViewModels
         public int UserId { get; set; }
         public int TeamLeaderId { get; set; }
         public int TeamId { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public StatusEnum Status { get; set; }
 
     }
