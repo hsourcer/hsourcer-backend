@@ -33,7 +33,7 @@ namespace HSourcer.WebUI.Auth
                     new Claim(ClaimTypes.Name, this.user.Id.ToString())
                 }),
                 Issuer = TokenConfigOptions.Value.Issuer,
-                Audience = TokenConfigOptions.Value.Issuer,
+                Audience = TokenConfigOptions.Value.Audience,
 
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
