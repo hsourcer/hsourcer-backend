@@ -16,7 +16,6 @@ namespace HSourcer.Application.Absences.Queries
         public int ContactPersonId { get; set; }
         public int UserId { get; set; }
         public int TeamLeaderId { get; set; }
-        public int TeamId { get; set; }
         public StatusEnum Status { get; set; }
 
         public static Expression<Func<Absence, AbsenceModel>> Projection
@@ -32,7 +31,6 @@ namespace HSourcer.Application.Absences.Queries
                     ContactPersonId = absence.ContactPersonId,
                     UserId = absence.UserId,
                     TeamLeaderId = absence.TeamLeaderId ?? 0,
-                    TeamId =absence.TypeId,
                     Status = (StatusEnum)absence.Status
                 };
             }

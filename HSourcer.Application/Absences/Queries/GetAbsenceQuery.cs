@@ -11,5 +11,6 @@ namespace HSourcer.Application.Absences.Queries
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public AbsenceEnum? AbsenceType { get; set; }
+        //public StatusEnum? Status { get; set; }
     }
 }

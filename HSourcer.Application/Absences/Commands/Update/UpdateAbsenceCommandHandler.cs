@@ -8,6 +8,8 @@ using HSourcer.Application.UserIdentity;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using HSourcer.Domain.Security;
+using HSourcer.Application.Notifications.Models;
+using System.Collections.Generic;
 
 namespace HSourcer.Application.Absences.Commands.Update
 {
@@ -15,11 +17,13 @@ namespace HSourcer.Application.Absences.Commands.Update
     {
         private readonly IHSourcerDbContext _context;
         private readonly UserResolverService _userResolver;
+        private readonly INotificationService _notificationService;
 
-        public UpdateAbsenceCommandHandler(IHSourcerDbContext context, UserResolverService userResolver)
+        public UpdateAbsenceCommandHandler(IHSourcerDbContext context, UserResolverService userResolver, INotificationService notificationService)
         {
             _context = context;
             _userResolver = userResolver;
+            _notificationService = notificationService;
         }
 
         public async Task<int> Handle(UpdateAbsenceCommand request, CancellationToken cancellationToken)
@@ -49,6 +53,15 @@ namespace HSourcer.Application.Absences.Commands.Update
             _context.Absences.Update(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
+    
+            var message = new Message
+            {
+                Subject = "New Absence",
+                Body = "Please accept/reject absence for " + user.FirstName + " " + user.LastName + ", thank you!",
+                To = new List<string> { entity.User.Email }
+            };
+            await _notificationService.SendAsync(message);
+
 
             return entity.AbsenceId;
         }

@@ -9,8 +9,8 @@ namespace HSourcer.Application.Absences.Commands.Create
     {
         public CreateAbsenceCommandValidator()
         {
-            ///Contract person cannot be the one that submits the absence.
-            RuleFor(v => true);
+           // RuleFor(v => v.StartDate < v.EndDate);
+           // RuleFor(v => v.ContactPersonId > 0);
         }
     }
 }

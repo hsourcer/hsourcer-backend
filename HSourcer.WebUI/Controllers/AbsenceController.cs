@@ -26,7 +26,6 @@ namespace HSourcer.WebUI.Controllers
         ///Restrictions:
         ///Contract person cannot be the one that submits the absence.
         ///</remarks>
-        [AllowAnonymous]
         [HttpPost]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
@@ -64,7 +63,6 @@ namespace HSourcer.WebUI.Controllers
         ///* produced result is only for the team, not the organization.
         ///</remarks>
         [HttpGet]
-        [Authorize]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(IEnumerable<AbsenceViewModel>), StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAbsence([FromQuery] GetAbsenceQuery query)

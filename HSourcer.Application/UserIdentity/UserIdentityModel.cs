@@ -19,12 +19,12 @@ namespace HSourcer.Application.UserIdentity
 
         public async Task<User> GetUserIdentity()
         {
-            var identity = _context.HttpContext.User;
+            var identity = _context.HttpContext.User?.Identity;
 
             if (identity == null)
                 throw new Exception("User not authorized for the context.");
 
-            var user =await _userManager.GetUserAsync(identity);
+            var user = _userManager.Users.FirstOrDefault(u=>u.Id.ToString() == identity.Name);
 
             if (user==null)
                 throw new Exception("User not authorized for the context.");

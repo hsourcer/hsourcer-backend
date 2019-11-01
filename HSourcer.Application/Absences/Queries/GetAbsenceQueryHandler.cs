@@ -36,9 +36,11 @@ namespace HSourcer.Application.Absences.Queries
                 .Where(a =>
                 (request.StartDate == null ||  a.StartDate >= request.StartDate)
                 &&
-                (request.EndDate == null || a.EndDate <= request.EndDate)            
+                (request.EndDate == null || a.EndDate <= request.EndDate)
                 &&
-                (request.AbsenceType == null || a.TypeId == (int)request.AbsenceType)               
+                (request.AbsenceType == null || a.TypeId == (int)request.AbsenceType) 
+                // &&
+                // (request.Status == null || a.TypeId == (int)request.Status)
                 );
             #endregion
 

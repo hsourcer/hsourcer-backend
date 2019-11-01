@@ -30,8 +30,9 @@ namespace HSourcer.Application.Absences.Commands.Create
         {
             var user = await _userResolver.GetUserIdentity();
 
+            var x = RoleEnum.TEAM_LEADER.ToString();
             //get team leader + check if exists
-            var teamLeader = await _context.Users.FirstOrDefaultAsync(w => w.TeamId == user.TeamId);
+            var teamLeader = await _context.Users.FirstOrDefaultAsync(w => w.TeamId == user.TeamId && w.UserRole == RoleEnum.TEAM_LEADER.ToString());
             if (teamLeader == null)
             {
                 throw new Exception("There is no teamLeader for this user!");
@@ -48,14 +49,20 @@ namespace HSourcer.Application.Absences.Commands.Create
                 TeamLeaderId = teamLeader.Id
             };
 
-            _context.Absences.Add(entity);
-            await _context.SaveChangesAsync(cancellationToken);
-
+            try
+            {
+                _context.Absences.Add(entity);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("something failed in databse" + e.ToString());
+            }
             var message = new Message
             {
-                Subject = "User creation",
-                Body = "User created :)",
-                To = new List<string> { user.Email }
+                Subject = "New Absence",
+                Body = "Please accept/reject absence for "+user.FirstName+" "+user.LastName+", thank you!",
+                To = new List<string> { teamLeader.Email }
             };
             await _notificationService.SendAsync(message);
 

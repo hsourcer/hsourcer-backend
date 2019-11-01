@@ -22,7 +22,6 @@ namespace HSourcer.WebUI.ViewModels
         public int ContactPersonId { get; set; }
         public int UserId { get; set; }
         public int TeamLeaderId { get; set; }
-        public int TeamId { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public StatusEnum Status { get; set; }
 
