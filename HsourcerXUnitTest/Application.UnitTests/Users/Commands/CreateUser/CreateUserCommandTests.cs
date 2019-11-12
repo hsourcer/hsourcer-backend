@@ -1,5 +1,6 @@
 using HSourcer.Application.Users.Commands;
 using HSourcer.Application.Interfaces;
+using HSourcer.Persistence;
 using Moq;
 using System;
 using Xunit;
@@ -21,9 +22,12 @@ namespace HsourcerXUnitTest
 
             Mock<IHSourcerDbContext> _context = new Mock<IHSourcerDbContext>();
             Mock<INotificationService> _notificationService = new Mock<INotificationService>();
+            CancellationToken ctoken = new CancellationToken();
 
-            var _userManager = new Mock<UserManager<User>>(); // ?
 
+            var _userStore = new Mock<UserStore>();
+            var _userManager = new Mock<UserManager<User>>(_userStore);
+  
 
             CreateUserCommand request = new CreateUserCommand();
             request.TeamId = TeamId;
@@ -36,7 +40,6 @@ namespace HsourcerXUnitTest
 
             CreateUserCommandHandler handler = new CreateUserCommandHandler(_context.Object, _userManager.Object, _notificationService.Object);
 
-            CancellationToken ctoken = new CancellationToken();
             var result = await handler.Handle(request, ctoken);
 
             System.Diagnostics.Debug.WriteLine("result is: ", result);

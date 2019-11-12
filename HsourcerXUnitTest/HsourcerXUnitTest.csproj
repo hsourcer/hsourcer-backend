@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HSourcer.Application\HSourcer.Application.csproj" />
+    <ProjectReference Include="..\HSourcer.Persistence\HSourcer.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
