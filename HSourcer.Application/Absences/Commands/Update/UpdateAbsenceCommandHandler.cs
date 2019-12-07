@@ -28,7 +28,7 @@ namespace HSourcer.Application.Absences.Commands.Update
 
         public async Task<int> Handle(UpdateAbsenceCommand request, CancellationToken cancellationToken)
         {
-            var query = from absences in _context.Absences.Include(c=>c.ContactPerson)
+            var query = from absences in _context.Absences.Include(c=>c.ContactPerson).Include(u=>u.User)
                         where absences.AbsenceId == request.AbsenceId
                         select absences;
 
@@ -69,7 +69,7 @@ namespace HSourcer.Application.Absences.Commands.Update
                 Subject = subject,
                 MimeType = "Html",
                 Body = body,
-                To = new List<string> { "jan.zubrycki@gmail.com" }
+                To = new List<string> { entity.User.Email }
             };
             await _notificationService.SendAsync(message);
 
