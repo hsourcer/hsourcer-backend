@@ -26,8 +26,8 @@ namespace HsourcerXUnitTest
 
 
             var _userStore = new Mock<UserStore>();
-            var _userManager = new Mock<UserManager<User>>(_userStore);
-  
+            var _userManager = new Mock<UserManager<User>>(_userStore.Object);
+
 
             CreateUserCommand request = new CreateUserCommand();
             request.TeamId = TeamId;
