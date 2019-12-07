@@ -29,9 +29,7 @@ namespace HSourcer.Application.Absences.Commands.Create
         public async Task<int> Handle(CreateAbsenceCommand request, CancellationToken cancellationToken)
         {
             var user = await _userResolver.GetUserIdentity();
-
-            var x = RoleEnum.TEAM_LEADER.ToString();
-            //get team leader + check if exists
+          
             var teamLeader = await _context.Users.FirstOrDefaultAsync(w => w.TeamId == user.TeamId && w.UserRole == RoleEnum.TEAM_LEADER.ToString());
             if (teamLeader == null)
             {
@@ -60,7 +58,7 @@ namespace HSourcer.Application.Absences.Commands.Create
             };
 
             //To be changed
-            entity = await _context.Absences.Where(a => a == entity).Include(w=>w.ContactPerson).FirstAsync();
+            entity = await _context.Absences.Where(a => a == entity).Include(w=>w.ContactPerson).Include(u=>u.User).FirstAsync();
             var body = await _notificationService.RenderViewToStringAsync("Notification", entity);
 
             var message = new Message
