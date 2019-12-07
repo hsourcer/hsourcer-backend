@@ -37,7 +37,7 @@ namespace HSourcer.Application.Absences.Commands.Create
             {
                 throw new Exception("There is no teamLeader for this user!");
             }
-
+         
             var entity = new Absence
             {
                 UserId = user.Id,
@@ -57,12 +57,18 @@ namespace HSourcer.Application.Absences.Commands.Create
             catch (Exception e)
             {
                 throw new Exception("something failed in databse" + e.ToString());
-            }
+            };
+
+            //To be changed
+            entity = await _context.Absences.Where(a => a == entity).Include(w=>w.ContactPerson).FirstAsync();
+            var body = await _notificationService.RenderViewToStringAsync("Notification", entity);
+
             var message = new Message
             {
-                Subject = "New Absence",
-                Body = "Please accept/reject absence for "+user.FirstName+" "+user.LastName+", thank you!",
-                To = new List<string> { teamLeader.Email }
+                Subject = "Masz nowe zgłoszenie w Hsourcer",
+                MimeType = "Html",
+                Body = body,
+                To = new List<string> { "jan.zubrycki@gmail.com" }
             };
             await _notificationService.SendAsync(message);
 

@@ -55,7 +55,7 @@ namespace HSourcer.Application.Users.Commands
                     To = new List<string> { newUser.Email }
                 };
 
-                await _notificationService.SendAsync(message);
+                //await _notificationService.SendAsync(message);
 
                 return newUser.Id;
             }

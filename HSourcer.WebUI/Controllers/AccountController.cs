@@ -26,6 +26,7 @@ namespace HSourcer.WebUI.Controllers
         ///* ADMIN can create both roles, TEAM_LEADER 
         ///</remarks>
         [HttpPost]
+        [AllowAnonymous]
         [Route("create")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         public async Task<ActionResult> Create([FromBody] CreateUserCommand command)

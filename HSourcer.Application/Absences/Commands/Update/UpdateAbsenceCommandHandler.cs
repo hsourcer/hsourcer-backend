@@ -28,7 +28,7 @@ namespace HSourcer.Application.Absences.Commands.Update
 
         public async Task<int> Handle(UpdateAbsenceCommand request, CancellationToken cancellationToken)
         {
-            var query = from absences in _context.Absences
+            var query = from absences in _context.Absences.Include(c=>c.ContactPerson)
                         where absences.AbsenceId == request.AbsenceId
                         select absences;
 
@@ -53,12 +53,23 @@ namespace HSourcer.Application.Absences.Commands.Update
             _context.Absences.Update(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
-    
+
+            var viewName = "Accept";
+            var subject = "Twój wniosek w Hsourcer został zaakceptowany";
+            if (request.Status != Domain.Enums.StatusEnum.ACCEPTED)
+            {
+                viewName = "Reject";
+                subject = " Twój wniosek w Hsourcer został odrzucony";
+            }
+           
+            var body = await _notificationService.RenderViewToStringAsync(viewName, entity);
+
             var message = new Message
             {
-                Subject = "New Absence",
-                Body = "Please accept/reject absence for " + user.FirstName + " " + user.LastName + ", thank you!",
-                To = new List<string> { entity.User.Email }
+                Subject = subject,
+                MimeType = "Html",
+                Body = body,
+                To = new List<string> { "jan.zubrycki@gmail.com" }
             };
             await _notificationService.SendAsync(message);
 

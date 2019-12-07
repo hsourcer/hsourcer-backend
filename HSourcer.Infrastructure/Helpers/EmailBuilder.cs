@@ -25,7 +25,7 @@ namespace HSourcer.Infrastructure.Helpers
 
             gridMessage.SetSubject(message.Subject);
 
-            gridMessage.AddContent(MimeType.Text, message.Body);
+            gridMessage.AddContent(MimeType.Html, message.Body);
            //gridMessage.AddContent(MimeType.Html, "<p>Hello World!</p>");
 
             return gridMessage;

@@ -1,0 +1,122 @@
+﻿@using HSourcer.Domain.Entities;
+@using HSourcer.Domain.Enums;
+@using HSourcer;
+@model Absence;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- ###################### -->
+    <!-- ###################### -->
+    <!-- MAIL DO MANAGERA:  -->
+    <!-- ###################### -->
+    <!-- ###################### -->
+    <div style="width: 100%; background: #F7F7F7; padding: 20px; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-sizing: border-box;">
+        <div style="background: #ffffff; width: 100%; max-width: 650px; margin: auto;">
+            <div style="background: #0865DE; color: white; padding: 30px; display: flex; align-items: center; justify-content: center;">
+                <div style="border-radius: 50%;
+                width: 11px;
+                height: 11px;
+                display: inline-block;
+                margin-right: 10px;
+                border: solid 10px #fff;"></div>
+                <h3 style="display: inline-block; font-weight: 500; margin: 0;">HSOURCER</h3>
+            </div>
+            <div style="background: white; padding: 20px;">
+                <h1 style="text-transform: uppercase; font-weight: 500; font-size: 22px; letter-spacing: 2px; margin: 10px 0 40px 0;">Masz nowe zgłoszenie</h1>
+
+                <table style="font-size: 12px; min-width: 320px; max-width: 500px; margin: auto;">
+                    <tr>
+                        <td style=" text-align: right; padding: 10px 50px 10px;">KTO</td>
+                        <td>
+                            <div style="display: flex;
+                            flex-direction: row;
+                            align-items: center;">
+                                <img src="@Model.User.PhotoPath" style="width: 32px;
+                                height: 32px;
+                                border-radius: 90px;" />
+                                <p style="font-weight: bold;
+                                margin: 0 0 0 12px;">@Model.User.FirstName</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style=" text-align: right; padding: 10px 50px 10px;">TYP</td>
+                        <td>
+                            @EnumDescription.GetEnumDescription((AbsenceEnum)Model.TypeId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style=" text-align: right; padding: 10px 50px 10px;">OD</td>
+                        <td>
+                            @Model.StartDate
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style=" text-align: right; padding: 10px 50px 10px;">DO</td>
+                        <td>
+                            @Model.EndDate
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style=" text-align: right; padding: 10px 50px 10px;">ZASTĘPCA</td>
+                        <td>
+                            <div style="display: flex;
+                            flex-direction: row;
+                            align-items: center;">
+                                <img src="@Model.ContactPerson.PhotoPath" style="width: 32px;
+                                height: 32px;
+                                border-radius: 90px;" />
+                                <p style="font-weight: bold;
+                                margin: 0 0 0 12px;">@Model.ContactPerson.FirstName</p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="margin: 40px 0 20px 0; text-align: center;">
+                    <a href="https://hsourcerapp.azurewebsites.net/from-email/confirm/@Model.AbsenceId"
+                       style="
+                    display: inline-block;
+                    width: auto;
+                    margin: 10px;
+                    padding: 10px 12px;
+                    border: none;
+                    font-size: 12px;
+                    font-weight: 900;
+                    text-transform: uppercase;
+                    color: white;
+                    background: #0865DE;
+                    text-decoration: none;
+                    min-width: 200px;
+                    ">Potwierdź</a>
+                    <br />
+                    <a style="
+                    display: inline-block;
+                    width: auto;
+                    margin: 10px;
+                    padding: 10px 12px;
+                    border: none;
+                    font-size: 12px;
+                    font-weight: 900;
+                    text-transform: uppercase;
+                    color: black;
+                    background: white;
+                    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.16);
+                    text-decoration: none;
+                    min-width: 200px;
+                    "
+                       href="https://hsourcerapp.azurewebsites.net/from-email/confirm/@Model.AbsenceId">Odrzuć</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
