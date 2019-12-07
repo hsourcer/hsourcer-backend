@@ -42,7 +42,10 @@
                                 height: 32px;
                                 border-radius: 90px;" />
                                 <p style="font-weight: bold;
-                                margin: 0 0 0 12px;">@Model.User.FirstName</p>
+                                margin: 0 0 0 12px;">
+                                    <span>@Model.User.FirstName</span> 
+                                    <span>@Model.User.FirstLast</span>
+                                </p>
                             </div>
                         </td>
                     </tr>
@@ -74,14 +77,17 @@
                                 height: 32px;
                                 border-radius: 90px;" />
                                 <p style="font-weight: bold;
-                                margin: 0 0 0 12px;">@Model.ContactPerson.FirstName</p>
+                                margin: 0 0 0 12px;">
+                                <span>@Model.ContactPerson.FirstName</span>
+                                <span>@Model.ContactPerson.LastName</span>
+                                </p>
                             </div>
                         </td>
                     </tr>
                 </table>
 
                 <div style="margin: 40px 0 20px 0; text-align: center;">
-                    <a href="https://hsourcerapp.azurewebsites.net/from-email/confirm/@Model.AbsenceId"
+                    <a href="https://hsourcerapp.azurewebsites.net/#/confirm-absence/@Model.AbsenceId"
                        style="
                     display: inline-block;
                     width: auto;
@@ -112,7 +118,7 @@
                     text-decoration: none;
                     min-width: 200px;
                     "
-                       href="https://hsourcerapp.azurewebsites.net/from-email/confirm/@Model.AbsenceId">Odrzuć</a>
+                       href="https://hsourcerapp.azurewebsites.net/#/reject-absence/@Model.AbsenceId">Odrzuć</a>
                 </div>
             </div>
         </div>
