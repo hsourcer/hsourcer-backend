@@ -41,7 +41,10 @@
                                     height: 32px;
                                     border-radius: 90px;" />
                                 <p style="font-weight: bold;
-                                    margin: 0 0 0 12px;">@Model.User.FirstName</p>
+                                    margin: 0 0 0 12px;">
+                                    <span>@Model.User.FirstName</span> 
+                                    <span>@Model.User.FirstLast</span>
+                                    </p>
                                 </div>
                             </td>
                         </tr>
@@ -73,7 +76,10 @@
                                     height: 32px;
                                     border-radius: 90px;" />
                                     <p style="font-weight: bold;
-                                    margin: 0 0 0 12px;">@Model.ContactPerson.FirstName</p>
+                                    margin: 0 0 0 12px;">
+                                    <span>@Model.ContactPerson.FirstName</span>
+                                    <span>@Model.ContactPerson.LastName</span>
+                                    </p>
                                 </div>
                             </td>
                         </tr>
