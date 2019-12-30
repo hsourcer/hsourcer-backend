@@ -21,6 +21,10 @@ CONFIG = {
 }
 
 @pytest.fixture
+def config():
+    return CONFIG
+
+@pytest.fixture
 def api_url():
     return CONFIG.get('API_URL', '')
 
@@ -31,6 +35,11 @@ def api_version():
 @pytest.fixture
 def url(api_url, api_version):
     return '{}/{}'.format(api_url, api_version)
+
+@pytest.fixture
+def login_url(url):
+    return '{}/{}/{}'.format(url, 'Auth', 'login')
+
 
 @pytest.fixture
 def username():
