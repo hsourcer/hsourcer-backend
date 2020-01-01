@@ -4,6 +4,7 @@ CONFIG = {
     "API_URL": "https://hsourcerapp.azurewebsites.net/api",
     "API_VERSION": "v1.0",
     "USERNAME": "devops@hscr.site",
+    "ADMIN_USERNAME": "admin@hscr.site",
     "PASSWORD": "Test12#$",
     "USER_MODEL": {
         "userToken": "str",
@@ -17,7 +18,9 @@ CONFIG = {
         "email": "str",
         "photoPath": "str",
         "userRole": "str"
-    }
+    },
+    "ORGANIZATION_ID": 1,
+    "TEAM_ID": 1
 }
 
 @pytest.fixture
@@ -46,9 +49,21 @@ def username():
     return CONFIG.get('USERNAME', '')
 
 @pytest.fixture
+def admin_username():
+    return CONFIG.get('ADMIN_USERNAME', '')
+
+@pytest.fixture
 def password():
     return CONFIG.get('PASSWORD', '')
 
 @pytest.fixture
 def user_model():
     return CONFIG.get('USER_MODEL', {})
+
+@pytest.fixture
+def organization_id():
+    return CONFIG.get('ORGANIZATION_ID', 1)
+
+@pytest.fixture
+def team_id():
+    return CONFIG.get('TEAM_ID', 1)
