@@ -1,4 +1,5 @@
 import pytest
+import random
 
 CONFIG = {
     "API_URL": "https://hsourcerapp.azurewebsites.net/api",
@@ -22,6 +23,10 @@ CONFIG = {
     "ORGANIZATION_ID": 1,
     "TEAM_ID": 1
 }
+
+def randstring(length=10):
+    valid_letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    return ''.join((random.choice(valid_letters) for i in range(length)))
 
 @pytest.fixture
 def config():

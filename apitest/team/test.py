@@ -34,4 +34,3 @@ def test_teams_get(module_url, login_url, username, password, config):
         for user in team.get('users', []):
             for k, v in user.items():
                 assert( config["USER_MODEL"].get(k) == type(v).__name__ )
-

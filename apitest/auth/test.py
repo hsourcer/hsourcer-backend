@@ -1,12 +1,7 @@
-import random
-
 import pytest
 import requests
 
-
-def randstring(length=10):
-    valid_letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    return ''.join((random.choice(valid_letters) for i in range(length)))
+from ..conftest import randstring
 
 @pytest.fixture
 def module_url(url):
