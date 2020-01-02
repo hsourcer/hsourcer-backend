@@ -45,6 +45,7 @@ def test_account(module_url, login_url, admin_username, password, team_id):
         user_id = r.json()
 
         # Invalid user
+        # Duplicated user
         r = s.post(url, json=data)
         assert(r.status_code==500)
         # Invalid team ID

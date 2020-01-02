@@ -8,6 +8,11 @@ def module_url(url):
 
 def test_teams_get(module_url, login_url, username, password, config):
 
+  # Before authentication
+  url = '{}/{}'.format(module_url, '')
+  r = requests.get(url)
+  assert(r.status_code == 401)
+
   with requests.Session() as s:
     payload = {
       "email": username,
@@ -19,8 +24,6 @@ def test_teams_get(module_url, login_url, username, password, config):
     s.headers.update({
       "Authorization": "Bearer {}".format(r.json().get('userToken', ''))
       })
-    url = '{}/{}'.format(module_url, '')
-
     r = s.get(url)
 
     data = r.json()
@@ -33,4 +36,8 @@ def test_teams_get(module_url, login_url, username, password, config):
 
         for user in team.get('users', []):
             for k, v in user.items():
-                assert( config["USER_MODEL"].get(k) == type(v).__name__ )
+                assert( 
+                  config["USER_MODEL"].get(k) == type(v).__name__ 
+                  or
+                  'NoneType' == type(v).__name__
+                )
