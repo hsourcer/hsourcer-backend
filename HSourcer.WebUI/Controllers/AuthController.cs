@@ -37,6 +37,9 @@ namespace HSourcer.WebUI.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult> Login([FromBody] LoginModel login)
         {
+            if (!login.IsValid())
+                return NotFound();
+
             var logIn = await _signInManager.PasswordSignInAsync(login.Email, login.Password, false,false);
             if (logIn.Succeeded)
             {
@@ -59,6 +62,7 @@ namespace HSourcer.WebUI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> LoginOut()
         {
+            await _signInManager.SignOutAsync();
             return Ok();
         }
         [HttpPost]

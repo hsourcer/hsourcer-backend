@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using HSourcer.Application.UserIdentity;
+using HSourcer.Domain.Security;
 
 namespace HSourcer.Application.Absences.Queries
 {
@@ -28,7 +29,13 @@ namespace HSourcer.Application.Absences.Queries
             var user = await _userResolver.GetUserIdentity();
 
             #region Access logic
-            query = query.Where(w => w.User.TeamId == user.TeamId);
+            if(user.UserRole == RoleEnum.ADMIN.ToString())
+            {
+                var teams =await _context.Teams.Where(t => t.Organization == user.Team.Organization).Select(t=>t.TeamId).ToListAsync();
+                query = query.Where(w => teams.Contains(w.User.TeamId));
+            }
+            else    
+                query = query.Where(w => w.User.TeamId == user.TeamId);
             #endregion
 
             #region Business logic
