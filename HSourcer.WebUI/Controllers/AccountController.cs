@@ -29,6 +29,7 @@ namespace HSourcer.WebUI.Controllers
         [AllowAnonymous]
         [Route("create")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        [AllowAnonymous]
         public async Task<ActionResult> Create([FromBody] CreateUserCommand command)
         {
             var userId = await Mediator.Send(command);
