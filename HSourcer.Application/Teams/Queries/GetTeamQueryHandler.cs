@@ -7,16 +7,19 @@ using HSourcer.Domain.Entities;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using HSourcer.Application.UserIdentity;
 
 namespace HSourcer.Application.Teams.Queries
 {
     public class GetAbsenceQueryHandler : IRequestHandler<GetTeamQuery, IEnumerable<TeamModel>>
     {
         private readonly IHSourcerDbContext _context;
+        private readonly UserResolverService _userResolver;
 
-        public GetAbsenceQueryHandler(IHSourcerDbContext context)
+        public GetAbsenceQueryHandler(IHSourcerDbContext context, UserResolverService userResolver)
         {
             _context = context;
+            _userResolver = userResolver;
         }
 
         public async Task<IEnumerable<TeamModel>> Handle(GetTeamQuery request, CancellationToken cancellationToken)
@@ -24,11 +27,14 @@ namespace HSourcer.Application.Teams.Queries
             //type problem
             IQueryable<Team> query = _context.Teams
                 .Include(u => u.Users);
-            
-            //TODO identity
-            var thisUserOrganization = 1;
+
+            var user = (await _userResolver.GetUserIdentity());
+            var organization = await _context.Users
+                .Where(u => u == user)
+                .Include(w => w.Team.Organization)
+                .Select(w => w.Team.Organization).FirstAsync();
             //join on user within the organization
-            query = query.Where(t => t.OrganizationId == thisUserOrganization);
+            query = query.Where(t => t.Organization == organization);
 
             var entities = await query.ToListAsync();
 
