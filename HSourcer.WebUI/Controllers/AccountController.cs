@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using HSourcer.Application.Users.Commands;
-using HSourcer.Domain.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +8,8 @@ using System.Threading.Tasks;
 namespace HSourcer.WebUI.Controllers
 {
     [ApiController]
+    [Authorize]
     [ApiVersion("1.0")]
-    [Authorize(Roles = "ADMIN")]
     public class AccountController : BaseController
     {
         public AccountController(IMapper mapper) : base(mapper) { }
@@ -27,6 +26,7 @@ namespace HSourcer.WebUI.Controllers
         ///</remarks>
         [HttpPost]
         [Route("create")]
+        [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         public async Task<ActionResult> Create([FromBody] CreateUserCommand command)
         {
@@ -60,6 +60,7 @@ namespace HSourcer.WebUI.Controllers
         ///* user must be from the TEAM_LEADER's team or change must be done by ADMIN.
         ///</remarks>
         [HttpPost]
+        [Authorize(Roles = "ADMIN")]
         [Route("delete")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         public async Task<ActionResult> Delete([FromBody] DeleteUserCommand command)

@@ -7,6 +7,7 @@ using System;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using HSourcer.Application.Exceptions;
+using HSourcer.Application.UserIdentity;
 
 namespace HSourcer.Application.Users.Commands
 {
@@ -14,11 +15,13 @@ namespace HSourcer.Application.Users.Commands
     {
         private readonly IHSourcerDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly UserResolverService _userResolver;
 
-        public UpdateUserCommandHandler(IHSourcerDbContext context, UserManager<User> _userManager) 
+        public UpdateUserCommandHandler(IHSourcerDbContext context, UserManager<User> userManager, UserResolverService userResolver)
         {
             _context = context;
-            this._userManager = _userManager;
+            _userManager = userManager;
+            _userResolver = userResolver;
         }
 
         public async Task<int> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -26,9 +29,13 @@ namespace HSourcer.Application.Users.Commands
 
             var existingUser = await _userManager.FindByIdAsync(request.UserId.ToString());
 
-            if(existingUser == null)
+            var currentUser = await _userResolver.GetUserIdentity();
+            if (!(currentUser.UserRole == "ADMIN") && existingUser.Id != currentUser.Id)
+                throw new Exception("User is not allowed to edit other users.");
+
+            if (existingUser == null)
                 throw new NotFoundException("User", request.UserId);
-            
+
             existingUser.Active = request.Active;
             existingUser.Email = request.Email;
             existingUser.UserName = request.Email;
@@ -36,8 +43,8 @@ namespace HSourcer.Application.Users.Commands
             existingUser.LastName = request.LastName;
             existingUser.PhoneNumber = request.PhoneNumber;
             existingUser.Position = request.Position;
-        
 
+            await _userManager.UpdateNormalizedEmailAsync(existingUser);
             var userUpdateResult = await _userManager.UpdateAsync(existingUser);
 
             if (userUpdateResult.Succeeded)
