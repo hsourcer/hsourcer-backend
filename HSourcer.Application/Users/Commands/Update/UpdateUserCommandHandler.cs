@@ -43,6 +43,7 @@ namespace HSourcer.Application.Users.Commands
             existingUser.LastName = request.LastName;
             existingUser.PhoneNumber = request.PhoneNumber;
             existingUser.Position = request.Position;
+            existingUser.PhotoPath = request.PhotoPath;
 
             await _userManager.UpdateNormalizedEmailAsync(existingUser);
             var userUpdateResult = await _userManager.UpdateAsync(existingUser);
