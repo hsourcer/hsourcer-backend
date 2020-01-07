@@ -29,13 +29,20 @@ namespace HSourcer.Application.Absences.Commands.Create
         public async Task<int> Handle(CreateAbsenceCommand request, CancellationToken cancellationToken)
         {
             var user = await _userResolver.GetUserIdentity();
-          
+
             var teamLeader = await _context.Users.FirstOrDefaultAsync(w => w.TeamId == user.TeamId && w.UserRole == RoleEnum.TEAM_LEADER.ToString());
-            if (teamLeader == null)
+
+            if (request.ContactPersonId.HasValue)
             {
-                throw new Exception("There is no teamLeader for this user!");
+                var contactUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == request.ContactPersonId);
+                if (contactUser == null || contactUser.TeamId != user.TeamId)
+                    throw new Exception("Incorrect contact user assigment.");
             }
-         
+
+            if (teamLeader == null)
+                throw new Exception("There is no teamLeader for this user!");
+            
+
             var entity = new Absence
             {
                 UserId = user.Id,
@@ -54,11 +61,14 @@ namespace HSourcer.Application.Absences.Commands.Create
             }
             catch (Exception e)
             {
-                throw new Exception("something failed in databse" + e.ToString());
+                throw new Exception("Save changes failed in databse" + e.ToString());
             };
 
-            //To be changed
-            entity = await _context.Absences.Where(a => a == entity).Include(w=>w.ContactPerson).Include(u=>u.User).FirstAsync();
+
+            if (!request.ContactPersonId.HasValue)
+                return entity.AbsenceId;
+
+            entity = await _context.Absences.Where(a => a == entity).Include(w => w.ContactPerson).Include(u => u.User).FirstAsync();
             var body = await _notificationService.RenderViewToStringAsync("Notification", entity);
 
             var message = new Message

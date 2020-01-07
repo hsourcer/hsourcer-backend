@@ -10,7 +10,7 @@ namespace HSourcer.Application.Absences.Commands.Create
 
         public DateTime EndDate { get; set; }
 
-        public int ContactPersonId { get; set; }
+        public int? ContactPersonId { get; set; }
 
         public AbsenceEnum AbsenceType { get; set; }
     }
