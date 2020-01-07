@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HSourcer.Application.Users.Commands;
+using HSourcer.Domain.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,7 @@ namespace HSourcer.WebUI.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize]
-
+    [Authorize(Roles = "ADMIN")]
     public class AccountController : BaseController
     {
         public AccountController(IMapper mapper) : base(mapper) { }
@@ -26,10 +26,8 @@ namespace HSourcer.WebUI.Controllers
         ///* ADMIN can create both roles, TEAM_LEADER 
         ///</remarks>
         [HttpPost]
-        [AllowAnonymous]
         [Route("create")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-        [AllowAnonymous]
         public async Task<ActionResult> Create([FromBody] CreateUserCommand command)
         {
             var userId = await Mediator.Send(command);
