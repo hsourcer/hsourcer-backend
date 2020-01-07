@@ -13,7 +13,7 @@ namespace HSourcer.Application.Absences.Queries
         public AbsenceEnum Type { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int ContactPersonId { get; set; }
+        public int? ContactPersonId { get; set; }
         public int UserId { get; set; }
         public int TeamLeaderId { get; set; }
         public StatusEnum Status { get; set; }
