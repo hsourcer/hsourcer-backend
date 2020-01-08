@@ -1,7 +1,10 @@
 ﻿using HSourcer.Application.Absences.Commands.Create;
 using HSourcer.Application.Interfaces;
 using HSourcer.Application.UserIdentity;
+using HSourcer.Domain.Entities;
 using HSourcer.Domain.Enums;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -23,21 +26,41 @@ namespace HsourcerXUnitTest.Application.UnitTests.Absences.Commands.CreateAbsenc
             var _notificationService = new Mock<INotificationService>();
             var _ctoken = new CancellationToken();
 
-            var _mockUserResolver = new Mock<IUserResolverService>();
+            List<User> ls = new List<User>()
+            {
+                new User(){
+                Id =1,
+                FirstName =""
+                }
+            };
+            //var _mockUserResolver =new  Mock<UserResolverService>(new Mock<IHttpContextAccessor>(),MockUserManager<User>(ls));
 
-            CreateAbsenceCommand request = new CreateAbsenceCommand();
-            request.ContactPersonId = ContactPersonId;
-            request.StartDate = Convert.ToDateTime(StartDate);
-            request.EndDate = Convert.ToDateTime(EndDate);
-            request.AbsenceType = AbsenceType;
+            //CreateAbsenceCommand request = new CreateAbsenceCommand();
+            //request.ContactPersonId = ContactPersonId;
+            //request.StartDate = Convert.ToDateTime(StartDate);
+            //request.EndDate = Convert.ToDateTime(EndDate);
+            //request.AbsenceType = AbsenceType;
 
-            CreateAbsenceCommandHandler handler = new CreateAbsenceCommandHandler(_context.Object, _mockUserResolver.Object, _notificationService.Object);
+            //CreateAbsenceCommandHandler handler = new CreateAbsenceCommandHandler(_context.Object, _mockUserResolver.Object, _notificationService.Object);
 
-            var result = await handler.Handle(request, _ctoken);
+            //var result = await handler.Handle(request, _ctoken);
 
-            System.Diagnostics.Debug.WriteLine("result is: ", result);
+            //System.Diagnostics.Debug.WriteLine("result is: ", result);
 
             return;
+        }
+        public static Mock<UserManager<TUser>> MockUserManager<TUser>(List<TUser> ls) where TUser : class
+        {
+            var store = new Mock<IUserStore<TUser>>();
+            var mgr = new Mock<UserManager<TUser>>(store.Object, null, null, null, null, null, null, null, null);
+            mgr.Object.UserValidators.Add(new UserValidator<TUser>());
+            mgr.Object.PasswordValidators.Add(new PasswordValidator<TUser>());
+
+            mgr.Setup(x => x.DeleteAsync(It.IsAny<TUser>())).ReturnsAsync(IdentityResult.Success);
+            mgr.Setup(x => x.CreateAsync(It.IsAny<TUser>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success).Callback<TUser, string>((x, y) => ls.Add(x));
+            mgr.Setup(x => x.UpdateAsync(It.IsAny<TUser>())).ReturnsAsync(IdentityResult.Success);
+
+            return mgr;
         }
     }
 }
