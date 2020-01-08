@@ -16,10 +16,10 @@ namespace HSourcer.Application.Absences.Commands.Update
     public class UpdateAbsenceCommandHandler : IRequestHandler<UpdateAbsenceCommand, int>
     {
         private readonly IHSourcerDbContext _context;
-        private readonly UserResolverService _userResolver;
+        private readonly IUserResolve _userResolver;
         private readonly INotificationService _notificationService;
 
-        public UpdateAbsenceCommandHandler(IHSourcerDbContext context, UserResolverService userResolver, INotificationService notificationService)
+        public UpdateAbsenceCommandHandler(IHSourcerDbContext context, IUserResolve userResolver, INotificationService notificationService)
         {
             _context = context;
             _userResolver = userResolver;

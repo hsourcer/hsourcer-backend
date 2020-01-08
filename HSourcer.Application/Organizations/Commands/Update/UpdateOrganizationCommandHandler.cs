@@ -16,9 +16,9 @@ namespace HSourcer.Application.Absences.Commands.Update
     public class UpdateOrganizationCommandHandler : IRequestHandler<UpdateOrganizationCommand, int>
     {
         private readonly IHSourcerDbContext _context;
-        private readonly UserResolverService _userResolver;
+        private readonly IUserResolve _userResolver;
 
-        public UpdateOrganizationCommandHandler(IHSourcerDbContext context, UserResolverService userResolver)
+        public UpdateOrganizationCommandHandler(IHSourcerDbContext context, IUserResolve userResolver)
         {
             _context = context;
             _userResolver = userResolver;

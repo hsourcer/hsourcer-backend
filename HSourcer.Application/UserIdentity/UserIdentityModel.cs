@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HSourcer.Application.UserIdentity
 {
-    public class UserResolverService
+    public class UserResolverService : IUserResolve
     {
         private readonly IHttpContextAccessor _context;
         private readonly UserManager<User> _userManager;

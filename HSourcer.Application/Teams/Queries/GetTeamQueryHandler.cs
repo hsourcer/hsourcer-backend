@@ -14,9 +14,9 @@ namespace HSourcer.Application.Teams.Queries
     public class GetAbsenceQueryHandler : IRequestHandler<GetTeamQuery, IEnumerable<TeamModel>>
     {
         private readonly IHSourcerDbContext _context;
-        private readonly UserResolverService _userResolver;
+        private readonly IUserResolve _userResolver;
 
-        public GetAbsenceQueryHandler(IHSourcerDbContext context, UserResolverService userResolver)
+        public GetAbsenceQueryHandler(IHSourcerDbContext context, IUserResolve userResolver)
         {
             _context = context;
             _userResolver = userResolver;

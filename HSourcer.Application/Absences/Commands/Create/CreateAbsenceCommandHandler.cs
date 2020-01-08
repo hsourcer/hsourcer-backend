@@ -16,10 +16,10 @@ namespace HSourcer.Application.Absences.Commands.Create
     public class CreateAbsenceCommandHandler : IRequestHandler<CreateAbsenceCommand, int>
     {
         private readonly IHSourcerDbContext _context;
-        private readonly UserResolverService _userResolver;
+        private readonly IUserResolve _userResolver;
         private readonly INotificationService _notificationService;
 
-        public CreateAbsenceCommandHandler(IHSourcerDbContext context, UserResolverService userResolver, INotificationService notificationService)
+        public CreateAbsenceCommandHandler(IHSourcerDbContext context, IUserResolve userResolver, INotificationService notificationService)
         {
             _context = context;
             _userResolver = userResolver;

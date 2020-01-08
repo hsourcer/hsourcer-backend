@@ -15,9 +15,9 @@ namespace HSourcer.Application.Users.Commands
     {
         private readonly IHSourcerDbContext _context;
         private readonly UserManager<User> _userManager;
-        private readonly UserResolverService _userResolver;
+        private readonly IUserResolve _userResolver;
 
-        public UpdateUserCommandHandler(IHSourcerDbContext context, UserManager<User> userManager, UserResolverService userResolver)
+        public UpdateUserCommandHandler(IHSourcerDbContext context, UserManager<User> userManager, IUserResolve userResolver)
         {
             _context = context;
             _userManager = userManager;

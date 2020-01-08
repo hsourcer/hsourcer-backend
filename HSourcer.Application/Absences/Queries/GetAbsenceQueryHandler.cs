@@ -15,9 +15,9 @@ namespace HSourcer.Application.Absences.Queries
     public class GetAbsenceQueryHandler : IRequestHandler<GetAbsenceQuery, IEnumerable<AbsenceModel>>
     {
         private readonly IHSourcerDbContext _context;
-        private readonly UserResolverService _userResolver;
+        private readonly IUserResolve _userResolver;
 
-        public GetAbsenceQueryHandler(IHSourcerDbContext context, UserResolverService userResolver)
+        public GetAbsenceQueryHandler(IHSourcerDbContext context, IUserResolve userResolver)
         {
             _context = context;
             _userResolver= userResolver;
