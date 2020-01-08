@@ -15,3 +15,4 @@ Adjust necessary config values inside `conftest.py` file. Defaults are provided.
 
 #### Usage
 Just run `pytest`.
+
