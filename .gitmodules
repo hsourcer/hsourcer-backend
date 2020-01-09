@@ -1,0 +1,3 @@
+[submodule "HSourcer.WebUI/ClientApp"]
+	path = HSourcer.WebUI/ClientApp
+	url = git@github.com:hsourcer/hsourcer-frontend.git
