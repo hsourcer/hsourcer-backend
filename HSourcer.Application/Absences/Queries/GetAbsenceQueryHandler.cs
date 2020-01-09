@@ -29,13 +29,8 @@ namespace HSourcer.Application.Absences.Queries
             var user = await _userResolver.GetUserIdentity();
 
             #region Access logic
-            if(user.UserRole == RoleEnum.ADMIN.ToString())
-            {
                 var teams =await _context.Teams.Where(t => t.Organization.Teams.Any(o=>o.TeamId == user.TeamId)).Select(t=>t.TeamId).ToListAsync();
                 query = query.Where(w => teams.Contains(w.User.TeamId));
-            }
-            else    
-                query = query.Where(w => w.User.TeamId == user.TeamId);
             #endregion
 
             #region Business logic

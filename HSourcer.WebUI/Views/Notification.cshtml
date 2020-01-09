@@ -73,15 +73,22 @@
                             <div style="display: flex;
                             flex-direction: row;
                             align-items: center;">
-                                <img src="@Model.ContactPerson.PhotoPath" style="width: 32px;
+                                @if (Model.ContactPerson != null)
+                                {
+                                    <img src="@Model.ContactPerson.PhotoPath" style="width: 32px;
                                 height: 32px;
                                 border-radius: 90px;" />
-                                <p style="font-weight: bold;
+                                    <p style="font-weight: bold;
                                 margin: 0 0 0 12px;">
-                                <span>@Model.ContactPerson.FirstName</span>
-                                <span>@Model.ContactPerson.LastName</span>
-                                </p>
-                            </div>
+                                        <span>@Model.ContactPerson.FirstName</span>
+                                        <span>@Model.ContactPerson.LastName</span>
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>Nie wybrano zastępstwa.</p>
+                                }
+                                </div>
                         </td>
                     </tr>
                 </table>

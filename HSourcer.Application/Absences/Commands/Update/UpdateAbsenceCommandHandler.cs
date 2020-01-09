@@ -28,21 +28,22 @@ namespace HSourcer.Application.Absences.Commands.Update
 
         public async Task<int> Handle(UpdateAbsenceCommand request, CancellationToken cancellationToken)
         {
-            var query = from absences in _context.Absences.Include(c=>c.ContactPerson).Include(u=>u.User)
+            var query = from absences in _context.Absences
+                        .Include(c=>c.ContactPerson)
+                        .Include(u=>u.User)
                         where absences.AbsenceId == request.AbsenceId
                         select absences;
-
-            query = query.Include(a => a.User);
-
+            
             var entity = await query.FirstOrDefaultAsync();
-
             var user = await _userResolver.GetUserIdentity();
 
-            if (user.TeamId != entity.User.TeamId)
-                throw new Exception("User cannot accept absence from another team.");
+            var teams = await _context.Teams.Where(t => t.Organization.Teams.Any(o => o.TeamId == user.TeamId)).Select(t => t.TeamId).ToListAsync();
 
-            if (user.UserRole != Enum.GetName(typeof(RoleEnum),RoleEnum.TEAM_LEADER))
-                throw new Exception("Only Team Leader can accept or decline absence.");
+            if (!teams.Contains(user.TeamId))
+                throw new Exception("User must be in the same organization.");
+
+            if (user.UserRole== Enum.GetName(typeof(RoleEnum),RoleEnum.EMPLOYEE))
+                throw new Exception("Only Team Leader or Admin can accept or decline absence.");
 
             entity.Status = (int)request.Status;
             entity.DecisionDate = DateTime.UtcNow;
