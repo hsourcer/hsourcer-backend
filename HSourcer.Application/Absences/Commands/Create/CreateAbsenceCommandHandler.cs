@@ -31,12 +31,14 @@ namespace HSourcer.Application.Absences.Commands.Create
             var user = await _userResolver.GetUserIdentity();
 
             var teamLeader = await _context.Users.FirstOrDefaultAsync(w => w.TeamId == user.TeamId && w.UserRole == RoleEnum.TEAM_LEADER.ToString());
+            var teams = await _context.Teams.Where(t => t.Organization.Teams.Any(o => o.TeamId == user.TeamId)).Select(t => t.TeamId).ToListAsync();
+
 
             if (request.ContactPersonId.HasValue)
             {
                 var contactUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == request.ContactPersonId);
-                if (contactUser == null || contactUser.TeamId != user.TeamId)
-                    throw new Exception("Incorrect contact user assigment.");
+                if (contactUser == null && !teams.Contains(contactUser.TeamId))
+                    throw new Exception("User must be in the same organization.");
             }
 
             if (teamLeader == null)
@@ -63,10 +65,6 @@ namespace HSourcer.Application.Absences.Commands.Create
             {
                 throw new Exception("Save changes failed in databse" + e.ToString());
             };
-
-
-            if (!request.ContactPersonId.HasValue)
-                return entity.AbsenceId;
 
             entity = await _context.Absences.Where(a => a == entity).Include(w => w.ContactPerson).Include(u => u.User).FirstAsync();
             var body = await _notificationService.RenderViewToStringAsync("Notification", entity);
