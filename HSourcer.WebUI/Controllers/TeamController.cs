@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HSourcer.Application.Absences.Commands.Create;
 using HSourcer.Application.Teams.Queries;
 using HSourcer.WebUI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -36,8 +37,32 @@ namespace HSourcer.WebUI.Controllers
             var queryResult = await Mediator.Send(query);
 
             var displayResult = _mapper.Map(queryResult, typeof(IEnumerable<TeamModel>), typeof(IEnumerable<TeamViewModel>));
-                    
+
             return Ok(displayResult);
+        }
+        ///<summary>
+        ///Creates new team, assigns users to it.
+        ///</summary>
+        [HttpPost]
+        [MapToApiVersion("1.0")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> CreateTeam([FromBody] CreateTeamCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return Ok(result);
+        }
+        ///<summary>
+        ///Updates team, assigns users to it.
+        ///</summary>
+        [HttpPut]
+        [MapToApiVersion("1.0")]
+        [Authorize(Roles = "ADMIN")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> UpdateTeam([FromBody] UpdateTeamCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return Ok(result);
         }
     }
 }

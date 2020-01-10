@@ -33,6 +33,9 @@ namespace HSourcer.Application.Users.Commands
             if (!(currentUser.UserRole == "ADMIN") && existingUser.Id != currentUser.Id)
                 throw new Exception("User is not allowed to edit other users.");
 
+            if (!(currentUser.UserRole == "ADMIN") && existingUser.TeamId != request.TeamId)
+                throw new Exception("User is not allowed to edit his team.");
+
             if (existingUser == null)
                 throw new NotFoundException("User", request.UserId);
 
@@ -44,6 +47,7 @@ namespace HSourcer.Application.Users.Commands
             existingUser.PhoneNumber = request.PhoneNumber;
             existingUser.Position = request.Position;
             existingUser.PhotoPath = request.PhotoPath;
+            existingUser.TeamId = request.TeamId;
 
             await _userManager.UpdateNormalizedEmailAsync(existingUser);
             var userUpdateResult = await _userManager.UpdateAsync(existingUser);
