@@ -1,3 +1,5 @@
 [submodule "HSourcer.WebUI/ClientApp"]
 	path = HSourcer.WebUI/ClientApp
 	url = https://github.com/hsourcer/hsourcer-frontend.git
+  recurse = true
+  update = merge

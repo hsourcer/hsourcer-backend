@@ -3,11 +3,14 @@ using HSourcer.Application.Interfaces;
 using HSourcer.Application.UserIdentity;
 using HSourcer.Domain.Entities;
 using HSourcer.Domain.Enums;
+using HsourcerXUnitTest.Mocks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,31 +25,36 @@ namespace HsourcerXUnitTest.Application.UnitTests.Absences.Commands.CreateAbsenc
         public async Task HandleCreateAbsence(int ContactPersonId, string StartDate, string EndDate, AbsenceEnum AbsenceType)
         {
 
-            var _context = new Mock<IHSourcerDbContext>();
-            var _notificationService = new Mock<INotificationService>();
+            /*var _notificationService = new Mock<INotificationService>();
+
+            _notificationService.Setup(x => x.SendAsync(new HSourcer.Application.Notifications.Models.Message()));
+            var dbMocker = new DbContextMock();
+            var _db = dbMocker.MockIt();
+
+            var _mockUserResolver = new Mock<IUserResolve>();
+          
+            _mockUserResolver.Setup(x => x.GetUserIdentity()).ReturnsAsync(
+
+              dbMocker.users.First()
+          );
             var _ctoken = new CancellationToken();
+           
+           
 
-            List<User> ls = new List<User>()
-            {
-                new User(){
-                Id =1,
-                FirstName =""
-                }
-            };
-            //var _mockUserResolver =new  Mock<UserResolverService>(new Mock<IHttpContextAccessor>(),MockUserManager<User>(ls));
 
-            //CreateAbsenceCommand request = new CreateAbsenceCommand();
-            //request.ContactPersonId = ContactPersonId;
-            //request.StartDate = Convert.ToDateTime(StartDate);
-            //request.EndDate = Convert.ToDateTime(EndDate);
-            //request.AbsenceType = AbsenceType;
+            
+            CreateAbsenceCommand request = new CreateAbsenceCommand();
+            request.ContactPersonId = ContactPersonId;
+            request.StartDate = Convert.ToDateTime(StartDate);
+            request.EndDate = Convert.ToDateTime(EndDate);
+            request.AbsenceType = AbsenceType;
 
-            //CreateAbsenceCommandHandler handler = new CreateAbsenceCommandHandler(_context.Object, _mockUserResolver.Object, _notificationService.Object);
+            CreateAbsenceCommandHandler handler = new CreateAbsenceCommandHandler(_db.Object, _mockUserResolver.Object, _notificationService.Object);
 
-            //var result = await handler.Handle(request, _ctoken);
+            var result = await handler.Handle(request, _ctoken);
 
-            //System.Diagnostics.Debug.WriteLine("result is: ", result);
-
+            System.Diagnostics.Debug.WriteLine("result is: ", result);
+            */
             return;
         }
         public static Mock<UserManager<TUser>> MockUserManager<TUser>(List<TUser> ls) where TUser : class

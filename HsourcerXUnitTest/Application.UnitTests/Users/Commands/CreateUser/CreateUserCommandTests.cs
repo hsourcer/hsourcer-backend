@@ -11,6 +11,7 @@ using HSourcer.Domain.Security;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using Microsoft.AspNetCore.Http;
 namespace HsourcerXUnitTest
 {
     public class CreateUserCommandTests
@@ -34,7 +35,7 @@ namespace HsourcerXUnitTest
                 }
             };
 
-            var _userManager = MockUserManager<User>(ls);
+            var _userManager = MockUserManager(ls);
 
             CreateUserCommand request = new CreateUserCommand();
             request.TeamId = TeamId;
