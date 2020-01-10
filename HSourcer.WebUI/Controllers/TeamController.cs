@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HSourcer.Application.Absences.Commands.Create;
 using HSourcer.Application.Teams.Queries;
+using HSourcer.Application.UserIdentity;
 using HSourcer.WebUI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +17,10 @@ namespace HSourcer.WebUI.Controllers
 
     public class TeamController : BaseController
     {
-        public TeamController(IMapper mapper) : base(mapper) { }
+        private IUserResolve _us;
+        public TeamController(IMapper mapper, IUserResolve us) : base(mapper) {
+            _us = us;
+        }
 
         ///<summary>
         ///Produces list of all teams and theirs members.
@@ -45,10 +49,15 @@ namespace HSourcer.WebUI.Controllers
         ///</summary>
         [HttpPost]
         [MapToApiVersion("1.0")]
-        [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult> CreateTeam([FromBody] CreateTeamCommand command)
         {
+            var user = await _us.GetUserIdentity();
+            if (user.UserRole != "ADMIN")
+                return Unauthorized();
+
             var result = await Mediator.Send(command);
             return Ok(result);
         }
@@ -57,10 +66,14 @@ namespace HSourcer.WebUI.Controllers
         ///</summary>
         [HttpPut]
         [MapToApiVersion("1.0")]
-        [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         public async Task<ActionResult> UpdateTeam([FromBody] UpdateTeamCommand command)
         {
+
+            var user = await _us.GetUserIdentity();
+            if (user.UserRole != "ADMIN")
+                return Unauthorized();
+
             var result = await Mediator.Send(command);
             return Ok(result);
         }
