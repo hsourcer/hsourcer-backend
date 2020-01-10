@@ -22,26 +22,20 @@ namespace HsourcerXUnitTest.Application.UnitTests.Absences.Commands.CreateAbsenc
     {
         [Theory(DisplayName = "Create absence")]
         [InlineData(1, "2019-01-01", "2019-01-04", AbsenceEnum.SICK_LEAVE)]
-        public async Task HandleCreateAbsence(int ContactPersonId, string StartDate, string EndDate, AbsenceEnum AbsenceType)
+        public async Task<int> HandleCreateAbsence(int ContactPersonId, string StartDate, string EndDate, AbsenceEnum AbsenceType)
         {
-
-            /*var _notificationService = new Mock<INotificationService>();
+            var _notificationService = new Mock<INotificationService>();
 
             _notificationService.Setup(x => x.SendAsync(new HSourcer.Application.Notifications.Models.Message()));
             var dbMocker = new DbContextMock();
             var _db = dbMocker.MockIt();
 
             var _mockUserResolver = new Mock<IUserResolve>();
-          
+
             _mockUserResolver.Setup(x => x.GetUserIdentity()).ReturnsAsync(
 
               dbMocker.users.First()
           );
-            var _ctoken = new CancellationToken();
-           
-           
-
-
             
             CreateAbsenceCommand request = new CreateAbsenceCommand();
             request.ContactPersonId = ContactPersonId;
@@ -51,11 +45,12 @@ namespace HsourcerXUnitTest.Application.UnitTests.Absences.Commands.CreateAbsenc
 
             CreateAbsenceCommandHandler handler = new CreateAbsenceCommandHandler(_db.Object, _mockUserResolver.Object, _notificationService.Object);
 
-            var result = await handler.Handle(request, _ctoken);
+            //var result = await handler.Handle(request, _ctoken);
 
-            System.Diagnostics.Debug.WriteLine("result is: ", result);
-            */
-            return;
+            //System.Diagnostics.Debug.WriteLine("result is: ", result);
+
+            //return result;
+            return 0;
         }
         public static Mock<UserManager<TUser>> MockUserManager<TUser>(List<TUser> ls) where TUser : class
         {
