@@ -39,7 +39,7 @@ namespace HSourcer.Application.Absences.Commands.Create
             if (request.Users != null)
             {
                 var usersToUpdate = await _context.Users.Where(u => request.Users.Contains(u.Id)
-                && teams.Contains(team.TeamId)).ToListAsync();
+                && teams.Contains(team.TeamId)&& u.TeamId != team.TeamId).ToListAsync();
                 foreach(var u in usersToUpdate)
                     team.Users.Add(u);
             }
