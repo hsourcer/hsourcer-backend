@@ -1,4 +1,4 @@
-![Build status](https://dev.azure.com/HsourcerDevops/HSourcer/_apis/build/status/hsourcerapp%20-%20CI)
+[![Build status](https://dev.azure.com/HsourcerDevops/HSourcer/_apis/build/status/hsourcerapp%20-%20CI)(https://dev.azure.com/HsourcerDevops/HSourcer/_build/latest?definitionId=1)]
 
 ## HSourcer - application for absences managament
 
@@ -20,7 +20,9 @@ The solution was integrated with Azure Pipeline, with some tests.
 
 Architecture was based on:
 https://github.com/JasonGT/NorthwindTraders
+
 CRON
 https://github.com/pgroene/ASPNETCoreScheduler
+
 Razor to html:
 https://github.com/scottsauber/RazorHtmlEmails
