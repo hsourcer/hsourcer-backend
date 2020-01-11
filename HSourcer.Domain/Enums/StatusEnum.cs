@@ -8,6 +8,7 @@ namespace HSourcer.Domain.Enums
     {
         PENDING = 0,
         ACCEPTED = 1,
-        REJECTED = 2
+        REJECTED = 2,
+        DELETED = 3
     }
 }

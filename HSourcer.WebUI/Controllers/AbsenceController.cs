@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HSourcer.Application.Absences.Commands;
 using HSourcer.Application.Absences.Commands.Create;
 using HSourcer.Application.Absences.Commands.Update;
 using HSourcer.Application.Absences.Queries;
@@ -71,6 +72,15 @@ namespace HSourcer.WebUI.Controllers
             var displayResult = _mapper.Map(queryResult, typeof(IEnumerable<AbsenceModel>), typeof(IEnumerable<AbsenceViewModel>));
 
             return Ok(displayResult);
+        }
+        [HttpDelete]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        public async Task<ActionResult> DeleteAbsence([FromBody] DeleteAbsenceCommand command)
+        {
+            var result = await Mediator.Send(command);
+      
+            return Ok(result);
         }
     }
 }

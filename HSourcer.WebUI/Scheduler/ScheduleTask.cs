@@ -23,7 +23,7 @@ namespace HSourcer.WebUI.Scheduler
             _dbContext = dbContext;
         }
 
-        protected override string Schedule => "0 15 * * *";
+        protected override string Schedule => "0 8 * * *";
 
         public override async Task ProcessInScopeAsync(IServiceProvider serviceProvider)
         {
