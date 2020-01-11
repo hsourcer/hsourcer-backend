@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HSourcer.WebUI.Scheduler
 {
+    //code from https://github.com/pgroene/ASPNETCoreScheduler/tree/master/ASPNETCoreScheduler
     public abstract class ScheduledProcessor : ScopedProcessor
     {
         private CrontabSchedule _schedule;
@@ -23,13 +24,12 @@ namespace HSourcer.WebUI.Scheduler
             do
             {
                 var now = DateTime.Now;
-                var nextrun = _schedule.GetNextOccurrence(now);
                 if (now > _nextRun)
                 {
                     await Process();
                     _nextRun = _schedule.GetNextOccurrence(DateTime.Now);
                 }
-                await Task.Delay(60000, stoppingToken); //60 seconds delay
+                await Task.Delay(5000, stoppingToken); //5 seconds delay
             }
             while (!stoppingToken.IsCancellationRequested);
         }

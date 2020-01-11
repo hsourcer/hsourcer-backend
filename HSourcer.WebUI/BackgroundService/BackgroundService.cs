@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace HSourcer.WebUI.BackgroundService
 {
+    //code from https://github.com/pgroene/ASPNETCoreScheduler/tree/master/ASPNETCoreScheduler
     public abstract class BackgroundService : IHostedService
     {
         private Task _executingTask;
@@ -62,7 +63,7 @@ namespace HSourcer.WebUI.BackgroundService
             }
             while (!stoppingToken.IsCancellationRequested);
         }
-
+            
         protected abstract Task Process();
     }
 }

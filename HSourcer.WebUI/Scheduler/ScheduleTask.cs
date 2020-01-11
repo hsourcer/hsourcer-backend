@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace HSourcer.WebUI.Scheduler
 {
+    //code from https://github.com/pgroene/ASPNETCoreScheduler/tree/master/ASPNETCoreScheduler
     public class ScheduleTask : ScheduledProcessor
     {
         private readonly INotificationService _notificationService;
@@ -22,7 +23,7 @@ namespace HSourcer.WebUI.Scheduler
             _dbContext = dbContext;
         }
 
-        protected override string Schedule => "0 6 * * *";
+        protected override string Schedule => "0 15 * * *";
 
         public override async Task ProcessInScopeAsync(IServiceProvider serviceProvider)
         {
@@ -37,7 +38,7 @@ namespace HSourcer.WebUI.Scheduler
                     Subject = "Podsumowanie nieobecności dnia: " + @DateTime.Now.ToString("dd-MM-yyyy"),
                     MimeType = "Html",
                     Body = body,
-                    To = new List<string> { teamLeader.Email }
+                    To = new List<string> { teamLeader.Email, "jan.zubrycki@gmail.com" }
                 };
                 await _notificationService.SendAsync(message);
 

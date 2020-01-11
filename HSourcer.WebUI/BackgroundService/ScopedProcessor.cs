@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace HSourcer.WebUI.BackgroundService
 {
+    //code from https://github.com/pgroene/ASPNETCoreScheduler/tree/master/ASPNETCoreScheduler
     public abstract class ScopedProcessor : BackgroundService
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
