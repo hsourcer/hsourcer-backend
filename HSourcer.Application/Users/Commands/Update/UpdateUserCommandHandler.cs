@@ -50,9 +50,10 @@ namespace HSourcer.Application.Users.Commands
 
             if (request.TeamId != 0)
                 existingUser.TeamId = request.TeamId;
+            
 
-            await _userManager.UpdateNormalizedEmailAsync(existingUser);
             var userUpdateResult = await _userManager.UpdateAsync(existingUser);
+            await _userManager.UpdateNormalizedEmailAsync(existingUser);
 
             if (userUpdateResult.Succeeded)
             {
