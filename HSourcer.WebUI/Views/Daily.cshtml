@@ -1,0 +1,69 @@
+﻿@using HSourcer.Domain.Entities;
+@using HSourcer.Domain.Enums;
+@using HSourcer;
+@model List<Absence>;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- ###################### -->
+    <!-- ###################### -->
+    <!-- MAIL O NIEOBECNOSCIACH W DANYM DNIU:  -->
+    <!-- ###################### -->
+    <!-- ###################### -->
+    <div style="width: 100%; background: #F7F7F7; padding: 20px; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-sizing: border-box;">
+        <div style="background: #ffffff; width: 100%; max-width: 650px; margin: auto;">
+            <div style="background: #0865DE; color: white; padding: 30px; display: flex; align-items: center; justify-content: center;">
+                <div style="border-radius: 50%;
+                width: 11px;
+                height: 11px;
+                display: inline-block;
+                margin-right: 10px;
+                border: solid 10px #fff;"></div>
+                <h3 style="display: inline-block; font-weight: 500; margin: 0;">HSOURCER</h3>
+            </div>
+            <div style="background: white; padding: 20px;">
+                <h1 style="text-transform: uppercase; font-weight: 500; font-size: 22px; letter-spacing: 2px; margin: 10px 0 40px 0;">@DateTime.Now.ToString("dd-MM-yyyy") w hsourcer</h1>
+
+                @if (Model.Any(a => a.TypeId == (int)AbsenceEnum.HOLIDAYS || a.TypeId == (int)AbsenceEnum.SICK_LEAVE))
+                {
+                    <h2 style="text-transform: uppercase; font-weight: 500; font-size: 18px; letter-spacing: 2px; margin: 40px 0 10px 0;">Nieobecność</h2>
+                    foreach (var u in Model.Where(a => a.TypeId == (int)AbsenceEnum.HOLIDAYS || a.TypeId == (int)AbsenceEnum.SICK_LEAVE).Select(a=>a.User).Distinct().ToList())
+                    {
+                        <div style="display: flex;
+                flex-direction: row;
+                align-items: center;">
+                            <img src="@u.PhotoPath" style="width: 32px;
+                    height: 32px;
+                    border-radius: 90px;" />
+                            <p style="font-weight: bold;
+                    margin: 0 0 0 12px;">@u.FirstName @u.LastName</p>
+                </div>
+            }
+        }
+                @if (Model.Any(a => a.TypeId == (int)AbsenceEnum.REMOTE_WORK))
+                {
+                    <h2 style="text-transform: uppercase; font-weight: 500; font-size: 18px; letter-spacing: 2px; margin: 40px 0 10px 0;">Praca zdalna</h2>
+                    foreach (var u in Model.Where(a => a.TypeId == (int)AbsenceEnum.REMOTE_WORK).Select(a=>a.User).Distinct().ToList())
+                    {
+                        <div style="display: flex;
+                flex-direction: row;
+                align-items: center;">
+                            <img src="@u.PhotoPath" style="width: 32px;
+                    height: 32px;
+                    border-radius: 90px;" />
+                            <p style="font-weight: bold;
+                    margin: 0 0 0 12px;">@u.FirstName @u.LastName</p>
+                </div>
+            }
+        }
+            </div>
+        </div>
+    </div>
+</body>
+</html>
