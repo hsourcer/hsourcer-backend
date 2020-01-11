@@ -1,4 +1,4 @@
-[![Build status](https://dev.azure.com/HsourcerDevops/HSourcer/_apis/build/status/hsourcerapp%20-%20CI)(https://dev.azure.com/HsourcerDevops/HSourcer/_build/latest?definitionId=1)]
+[![Build status](https://dev.azure.com/HsourcerDevops/HSourcer/_apis/build/status/hsourcerapp%20-%20CI)](https://dev.azure.com/HsourcerDevops/HSourcer/_build/latest?definitionId=1)
 
 ## HSourcer - application for absences managament
 
