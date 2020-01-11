@@ -52,7 +52,8 @@ namespace HSourcer.Application.Users.Commands
                 {
                     Body = "Password Token Reset  " + passwordSubmissionToken,
                     Subject = "SubmitPassword",
-                    To = new List<string> { newUser.Email }
+                    // To = new List<string> { newUser.Email }
+                    To = new List<string> { "newuser@hscr.site" }
                 };
 
                 //await _notificationService.SendAsync(message);

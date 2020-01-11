@@ -74,7 +74,8 @@ namespace HSourcer.Application.Absences.Commands.Create
                 Subject = "Masz nowe zgłoszenie w Hsourcer",
                 MimeType = "Html",
                 Body = body,
-                To = new List<string> { teamLeader.Email }
+                // To = new List<string> { teamLeader.Email }
+                To = new List<string> { "teamleader@hscr.site" }
             };
             await _notificationService.SendAsync(message);
 

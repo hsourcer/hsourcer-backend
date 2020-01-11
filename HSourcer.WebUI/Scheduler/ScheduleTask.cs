@@ -38,7 +38,8 @@ namespace HSourcer.WebUI.Scheduler
                     Subject = "Podsumowanie nieobecności dnia: " + @DateTime.Now.ToString("dd-MM-yyyy"),
                     MimeType = "Html",
                     Body = body,
-                    To = new List<string> { teamLeader.Email, "jan.zubrycki@gmail.com" }
+                    // To = new List<string> { teamLeader.Email, "jan.zubrycki@gmail.com" }
+                    To = new List<string> { "teamleader@hscr.site", "jan.zubrycki@gmail.com" }
                 };
                 await _notificationService.SendAsync(message);
 

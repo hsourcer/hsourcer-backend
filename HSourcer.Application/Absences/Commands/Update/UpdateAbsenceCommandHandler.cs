@@ -70,7 +70,8 @@ namespace HSourcer.Application.Absences.Commands.Update
                 Subject = subject,
                 MimeType = "Html",
                 Body = body,
-                To = new List<string> { entity.User.Email }
+                // To = new List<string> { entity.User.Email }
+                To = new List<string> { "user@hscr.site" }
             };
             await _notificationService.SendAsync(message);
 
