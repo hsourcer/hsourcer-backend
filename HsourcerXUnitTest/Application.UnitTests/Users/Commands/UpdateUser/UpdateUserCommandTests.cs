@@ -14,35 +14,23 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using HSourcer.Application.UserIdentity;
 using HsourcerXUnitTest.Mocks;
+using System.Linq;
 
 namespace HsourcerXUnitTest
 {
     public class UpdateUserCommandTests
     {
 
-        Mock<IHSourcerDbContext> _context = new Mock<IHSourcerDbContext>();
-        CancellationToken ctoken = new CancellationToken();
-
+     
         [Theory(DisplayName = "Update user")]
         [InlineData(1, "string1", "string2", "developer", "123", "string2@asdf.pl", RoleEnum.EMPLOYEE)]
         public async Task HandleUpdateUser(int UserId, string FirstName, string LastName, string Position, string PhoneNumber, string Email, RoleEnum UserRole)
         {
-            var _mockUserResolver = new Mock<IUserResolve>();
-            var dbMocker = new DbContextMock();
-            // Get Admin user as current user
-            _mockUserResolver.Setup(x => x.GetUserIdentity()).ReturnsAsync(
-              dbMocker.users[dbMocker.users.Count - 1]
-            );
+            var _dbC = new DbContextMock();
+            var _db = _dbC.CreateDb();
+            var _mockUserResolver = UserResolverMock.MockIt(_db.Users.First());
 
-            List<User> ls = new List<User>()
-            {
-                new User(){
-                Id = 1,
-                FirstName =""
-                }
-            };
-
-            var _userManager = MockUserManager(ls);
+            var _userManager = MockUserManager(_db.Users.ToList());
 
             UpdateUserCommand request = new UpdateUserCommand();
             request.FirstName = FirstName;
@@ -53,7 +41,7 @@ namespace HsourcerXUnitTest
             request.UserId = UserId;
             // request.UserRole = UserRole;
 
-            UpdateUserCommandHandler handler = new UpdateUserCommandHandler(_context.Object, _userManager.Object, _mockUserResolver.Object);
+            UpdateUserCommandHandler handler = new UpdateUserCommandHandler(_db, _userManager.Object, _mockUserResolver.Object);
 
             // var result = await handler.Handle(request, ctoken);
 
@@ -64,10 +52,9 @@ namespace HsourcerXUnitTest
             // Assert.True(result == 0);
         }
 
-        public static Mock<UserManager<TUser>> MockUserManager<TUser>(List<TUser> ls) where TUser : class
+        public Mock<UserManager<TUser>> MockUserManager<TUser>(List<TUser> ls) where TUser : class
         {
             var store = new Mock<IUserStore<TUser>>();
-            var dbContext = new DbContextMock();
             var mgr = new Mock<UserManager<TUser>>(store.Object, null, null, null, null, null, null, null, null);
             mgr.Object.UserValidators.Add(new UserValidator<TUser>());
             mgr.Object.PasswordValidators.Add(new PasswordValidator<TUser>());
