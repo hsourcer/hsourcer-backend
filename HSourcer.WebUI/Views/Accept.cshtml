@@ -70,16 +70,23 @@
                             <td style=" text-align: right; padding: 10px 50px 10px;">ZASTĘPCA</td>
                             <td>
                                 <div style="display: flex;
-                                flex-direction: row;
-                                align-items: center;">
-                                    <img src="@Model.ContactPerson.PhotoPath" style="width: 32px;
-                                    height: 32px;
-                                    border-radius: 90px;" />
-                                    <p style="font-weight: bold;
-                                    margin: 0 0 0 12px;">
-                                    <span>@Model.ContactPerson.FirstName</span>
-                                    <span>@Model.ContactPerson.LastName</span>
-                                    </p>
+                            flex-direction: row;
+                            align-items: center;">
+                                    @if (Model.ContactPerson != null)
+                                    {
+                                        <img src="@Model.ContactPerson.PhotoPath" style="width: 32px;
+                                height: 32px;
+                                border-radius: 90px;" />
+                                        <p style="font-weight: bold;
+                                margin: 0 0 0 12px;">
+                                            <span>@Model.ContactPerson.FirstName</span>
+                                            <span>@Model.ContactPerson.LastName</span>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p>Nie wybrano zastępstwa.</p>
+                                    }
                                 </div>
                             </td>
                         </tr>

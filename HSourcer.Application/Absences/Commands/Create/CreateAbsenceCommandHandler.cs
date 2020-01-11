@@ -34,7 +34,7 @@ namespace HSourcer.Application.Absences.Commands.Create
             var teams = await _context.Teams.Where(t => t.Organization.Teams.Any(o => o.TeamId == user.TeamId)).Select(t => t.TeamId).ToListAsync();
 
 
-            if (request.ContactPersonId.HasValue)
+            if (request.ContactPersonId.HasValue && request.ContactPersonId !=0)
             {
                 var contactUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == request.ContactPersonId);
                 if (contactUser == null && !teams.Contains(contactUser.TeamId))
@@ -48,7 +48,7 @@ namespace HSourcer.Application.Absences.Commands.Create
             var entity = new Absence
             {
                 UserId = user.Id,
-                ContactPersonId = request.ContactPersonId,
+                ContactPersonId = request.ContactPersonId == 0 ? null : request.ContactPersonId,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
                 CreationDate = DateTime.UtcNow,
