@@ -18,7 +18,7 @@ namespace HSourcer.Application.Users.Commands
         private readonly UserManager<User> _userManager;
         private readonly INotificationService _notificationService;
 
-        public CreateUserCommandHandler(IHSourcerDbContext context, UserManager<User> userManager, INotificationService notificationService) 
+        public CreateUserCommandHandler(IHSourcerDbContext context, UserManager<User> userManager, INotificationService notificationService)
         {
             _context = context;
             _userManager = userManager;
@@ -41,24 +41,18 @@ namespace HSourcer.Application.Users.Commands
                 UserRole = Enum.GetName(typeof(RoleEnum), request.UserRole)
             };
 
-            var userCreationResult = await _userManager.CreateAsync(newUser,"Test12#$");
-            var userRoleResult = await _userManager.AddToRoleAsync(newUser, Enum.GetName(typeof(RoleEnum), (int)(request.UserRole)));
-       
+            var userCreationResult = await _userManager.CreateAsync(newUser, request.Password);
+
             if (userCreationResult.Succeeded)
             {
+                await _userManager.AddToRoleAsync(newUser, Enum.GetName(typeof(RoleEnum), (int)(request.UserRole)));
+
                 var passwordSubmissionToken = await _userManager.GeneratePasswordResetTokenAsync(newUser);
-                //TODO send password token to the user Email.
-                var message = new Message
-                {
-                    Body = "Password Token Reset  " + passwordSubmissionToken,
-                    Subject = "SubmitPassword",
-                    // To = new List<string> { newUser.Email }
-                    To = new List<string> { "newuser@hscr.site" }
-                };
-
-                //await _notificationService.SendAsync(message);
-
                 return newUser.Id;
+            }
+            else
+            {
+                throw new Exception("User creation failed at user manager.");
             }
             //not sure how to handle it...
             //log userCreationResult.Errors

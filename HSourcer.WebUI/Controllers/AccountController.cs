@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HSourcer.Application.UserIdentity;
 using HSourcer.Application.Users.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +13,11 @@ namespace HSourcer.WebUI.Controllers
     [ApiVersion("1.0")]
     public class AccountController : BaseController
     {
-        public AccountController(IMapper mapper) : base(mapper) { }
+        IUserResolve _userResolver;
+        public AccountController(IMapper mapper, IUserResolve userResolver) : base(mapper)
+        {
+            _userResolver = userResolver;
+        }
 
         ///<summary>
         ///Creation of the user.
@@ -26,10 +31,13 @@ namespace HSourcer.WebUI.Controllers
         ///</remarks>
         [HttpPost]
         [Route("create")]
-        [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         public async Task<ActionResult> Create([FromBody] CreateUserCommand command)
         {
+            var user = await _userResolver.GetUserIdentity();
+            if (user.UserRole != "ADMIN")
+                return Unauthorized();
+
             var userId = await Mediator.Send(command);
             return Created("User Created.", userId);
         }
@@ -65,6 +73,11 @@ namespace HSourcer.WebUI.Controllers
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         public async Task<ActionResult> Delete([FromBody] DeleteUserCommand command)
         {
+
+            var user = await _userResolver.GetUserIdentity();
+            if (user.UserRole != "ADMIN")
+                return Unauthorized();
+
             var userId = await Mediator.Send(command);
             return Ok(userId);
         }
