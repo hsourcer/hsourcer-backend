@@ -1,41 +1,26 @@
+![Build status](https://dev.azure.com/HsourcerDevops/HSourcer/_apis/build/status/hsourcerapp%20-%20CI)
+
 ## HSourcer - application for absences managament
 
-## Getting Started
-Use these instructions to get the project up and running.
+Application was created in clean architecure design. Well, at least most of it and at the beginning.
+### Functionality (CRUD-like)
+* users,
+* teams,
+* organization,
+* absences.
+### Services
+* emails sending, (cshtml -> Azure sendGrid),
+* user manager, (EF + identity core)
+* JWT tokens,
+* CRON scheduler,
 
-### Prerequisites
-You will need the following tools:
+DB was MSSQL hosted on Azure, but should work with most relational databases.
 
-* [Visual Studio Code or 2017](https://www.visualstudio.com/downloads/)
-* [.NET Core SDK 2.2](https://www.microsoft.com/net/download/dotnet-core/2.2)
+The solution was integrated with Azure Pipeline, with some tests.
 
-### Setup
-Follow these steps to get your development environment set up:
-  0. After renaming the project with powershell scripts.It seems that it messed up encoding for some files e.g:
-	-gitignore, -it wasn't working at all.
-	-HSourcer.WebUI/wwroot/api/specification.json - it messed up the Swagger.
-
-  1. Clone the repository
-  2. At the root directory, restore required packages by running:
-     ```
-     dotnet restore
-     ```
-  3. Next, build the solution by running:
-     ```
-     dotnet build
-     ```
-  4. Next, within the `HSourcer.WebUI\ClientApp` directory, launch the front end by running:
-     ```
-     npm start
-     ```
-  5. Once the front end has started, within the `HSourcer.WebUI` directory, launch the back end by running:
-     ```
-     dotnet run
-     ```
-  Launch [http://localhost:52468/](http://localhost:52468/) in your browser to view the Web UI
-  Launch [http://localhost:52468/swagger](http://localhost:52468/api) for swagger
-  
-## Technologies
-* .NET Core 2.2
-* .NET Core Identity 2.2
-* Entity Framework Core 2.2
+Architecture was based on:
+https://github.com/JasonGT/NorthwindTraders
+CRON
+https://github.com/pgroene/ASPNETCoreScheduler
+Razor to html:
+https://github.com/scottsauber/RazorHtmlEmails
