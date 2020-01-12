@@ -46,6 +46,7 @@ namespace HsourcerXUnitTest.Application.UnitTests.Absences.Commands.CreateAbsenc
 
         [Theory(DisplayName = "Fail create absence")]
         [InlineData(9999, "2019-01-01", "2019-01-04", AbsenceEnum.SICK_LEAVE)]
+        [InlineData(-1, "2019-01-01", "2019-01-04", AbsenceEnum.SICK_LEAVE)]
         public async Task<int> HandleCreateAbsenceFail(int ContactPersonId, string StartDate, string EndDate, AbsenceEnum AbsenceType)
         {
 
@@ -70,10 +71,9 @@ namespace HsourcerXUnitTest.Application.UnitTests.Absences.Commands.CreateAbsenc
             try
             {
                 var result = await handler.Handle(request, _ctoken);
-            } catch (NullReferenceException e)
-            {
-                Assert.IsType<NullReferenceException>(e);
-            } catch
+            } 
+            catch (NullReferenceException) {} 
+            catch
             {
                 Assert.Equal('a', 'b');
             }
