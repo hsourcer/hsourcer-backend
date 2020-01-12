@@ -20,7 +20,6 @@ namespace HsourcerXUnitTest.Application.UnitTests.Absences.Commands.CreateAbsenc
         {
            
             var _notificationService = new Mock<INotificationService>();
-
             _notificationService.Setup(x => x.SendAsync(new HSourcer.Application.Notifications.Models.Message()));
             var _dbC = new DbContextMock();
             var _db = _dbC.CreateDb();
@@ -41,6 +40,43 @@ namespace HsourcerXUnitTest.Application.UnitTests.Absences.Commands.CreateAbsenc
             var result = await handler.Handle(request, _ctoken);
             Assert.IsType<int>(result);
             Assert.True(result != 0);
+
+            return 0;
+        }
+
+        [Theory(DisplayName = "Fail create absence")]
+        [InlineData(9999, "2019-01-01", "2019-01-04", AbsenceEnum.SICK_LEAVE)]
+        public async Task<int> HandleCreateAbsenceFail(int ContactPersonId, string StartDate, string EndDate, AbsenceEnum AbsenceType)
+        {
+
+            var _notificationService = new Mock<INotificationService>();
+            _notificationService.Setup(x => x.SendAsync(new HSourcer.Application.Notifications.Models.Message()));
+            var _dbC = new DbContextMock();
+            var _db = _dbC.CreateDb();
+
+            var _mockUserResolver = UserResolverMock.MockIt(_db.Users.First());
+
+
+            CreateAbsenceCommand request = new CreateAbsenceCommand();
+            request.ContactPersonId = ContactPersonId;
+            request.StartDate = Convert.ToDateTime(StartDate);
+            request.EndDate = Convert.ToDateTime(EndDate);
+            request.AbsenceType = AbsenceType;
+
+            // _db.Setup(w => w.Absences.FirstOrDefaultAsync(It.IsAny<bool>())).ReturnsAsync(_db.Object.Absences[0]);
+
+            CreateAbsenceCommandHandler handler = new CreateAbsenceCommandHandler(_db, _mockUserResolver.Object, _notificationService.Object);
+
+            try
+            {
+                var result = await handler.Handle(request, _ctoken);
+            } catch (NullReferenceException e)
+            {
+                Assert.IsType<NullReferenceException>(e);
+            } catch
+            {
+                Assert.Equal('a', 'b');
+            }
 
             return 0;
         }
