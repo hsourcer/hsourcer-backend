@@ -32,7 +32,7 @@ namespace HSourcer.Application.Absences.Commands
             var absence = await _context.Absences.FirstOrDefaultAsync(a => a.AbsenceId == request.AbsenceId && a.User.Id == user.Id);
 
             if (absence == null)
-                throw new Exception("Absence do noe exists, or you have no rights to delete it.");
+                throw new Exception("Absence does not exists, or you have no permission to delete it.");
 
             absence.Status = (int)StatusEnum.DELETED;
             absence.DecisionDate = DateTime.Now;

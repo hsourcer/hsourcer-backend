@@ -64,8 +64,6 @@ namespace HsourcerXUnitTest.Application.UnitTests.Absences.Commands.CreateAbsenc
             request.EndDate = Convert.ToDateTime(EndDate);
             request.AbsenceType = AbsenceType;
 
-            // _db.Setup(w => w.Absences.FirstOrDefaultAsync(It.IsAny<bool>())).ReturnsAsync(_db.Object.Absences[0]);
-
             CreateAbsenceCommandHandler handler = new CreateAbsenceCommandHandler(_db, _mockUserResolver.Object, _notificationService.Object);
 
             try
