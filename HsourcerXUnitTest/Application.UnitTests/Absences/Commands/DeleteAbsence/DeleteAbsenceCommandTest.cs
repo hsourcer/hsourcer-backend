@@ -20,8 +20,6 @@ namespace HsourcerXUnitTest.Application.UnitTests.Absences.Commands.DeleteAbsenc
         public async Task<int> HandleDeleteAbsence(int AbsenceId)
         {
 
-            var _notificationService = new Mock<INotificationService>();
-            _notificationService.Setup(x => x.SendAsync(new HSourcer.Application.Notifications.Models.Message()));
             var _dbC = new DbContextMock();
             var _db = _dbC.CreateDb();
 

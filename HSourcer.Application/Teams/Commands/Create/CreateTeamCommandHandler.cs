@@ -54,7 +54,7 @@ namespace HSourcer.Application.Absences.Commands.Create
             }
             catch (Exception e)
             {
-                throw new Exception("Save changes failed in databse" + e.ToString());
+                throw new Exception("Save changes failed in database" + e.ToString());
             };
 
             return entity.TeamId;
